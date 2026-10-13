@@ -13,13 +13,13 @@ public class Compra {
     private  double servicio;
     private double total;
 
-    public Compra(String id, String nombreComprador, String documentoComprador, String correoCoprador, String nombreEvento, String asiento, double subtotal, double servicio, double total){
+    public Compra(String id, String nombreComprador, String documentoComprador, String correoCoprador, String nombreEvento, String asientos, double subtotal, double servicio, double total){
      this.id = id;
      this.nombreComprador = nombreComprador;
      this.documentoComprador = documentoComprador;
      this.correoCoprador = correoCoprador;
      this.nombreEvento = nombreEvento;
-     this.asiento = asiento;
+     this.asientos = asientos;
      this.subtotal = subtotal;
      this.servicio = servicio;
      this.total = total;
@@ -41,7 +41,7 @@ public class Compra {
         return nombreEvento;
     }
     public  String getAsiento(){
-        return asiento;
+        return asientos;
     }
     public  double getSubtotal(){
         return subtotal;
@@ -68,7 +68,7 @@ public class Compra {
         this.nombreEvento = nombreEvento;
     }
     public  void setAsiento(){
-        this.asiento = asiento;
+        this.asientos = asientos;
     }
     public  void setSubtotal(){
         this.subtotal = subtotal;
@@ -84,12 +84,12 @@ public class Compra {
         return "Numero compra" + id +
                 "Nombre del comprador" + nombreComprador +
                 "evento" + nombreEvento +
-                "asiento" + asiento +
+                "asiento" + asientos +
                 "cedula comprdor" + documentoComprador +
                 "correo comprador" + correoCoprador +
                 "subtotal" + subtotal +
                 "servicio" + servicio +
-                "total" + total 
+                "total" + total;
      }
 
 

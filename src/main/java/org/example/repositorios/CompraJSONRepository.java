@@ -1,6 +1,5 @@
 package org.example.repositorios.;
 import org.example.modelo.Compra;
-
 import java.lang.reflect.Type;
 import java.util.List;
 import java.io.*;
@@ -23,9 +22,9 @@ public class CompraJSONRepository implements GuardableEnRepositorio {
         List<Compra> compras = obtenerTodas();
         compras.add(compra);
         try(FileWriter writer = new FileWriter(archivo)){
-
             gson.toJson(compra, writer);
-
+        }catch (Exception e){
+            throw new RuntimeException("Error al leer las compras", e);
         }
     }
 
@@ -49,6 +48,8 @@ public class CompraJSONRepository implements GuardableEnRepositorio {
             if (compras != null){
                 return  compras;
             }
+        }catch (Exception e){
+            throw new RuntimeException("Error al leer las compras", e);
         }
         return null;
     }
