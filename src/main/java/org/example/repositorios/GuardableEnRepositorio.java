@@ -1,11 +1,12 @@
-package org.example.archivos;
-import org.example.modelo.Compras;
+package org.example.repositorios.;
+import org.example.modelo.Compra;
 import java.util.List;
 
+
 public interface GuardableEnRepositorio {
-    void guardar(Compras compra);
+    void guardar(Compra compra);
 
-    Compras buscarPorId(int id);
+    Compra buscarPorId(int id);
 
-    List<Compras> obtenerTodas();
+    List<Compra> obtenerTodas();
 }

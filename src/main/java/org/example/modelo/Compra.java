@@ -1,17 +1,19 @@
 package org.example.modelo;
 
-public class Compras {
+import java.util.List;
+
+public class Compra {
     private String id;
     private String nombreComprador;
     private String documentoComprador;
     private String correoCoprador;
     private String nombreEvento;
-    private String asiento;
+    private List<Asiento> asientos;
     private double subtotal;
     private  double servicio;
     private double total;
 
-    public Compras(String id, String nombreComprador, String documentoComprador, String correoCoprador, String nombreEvento, String asiento, double subtotal, double servicio, double total){
+    public Compra(String id, String nombreComprador, String documentoComprador, String correoCoprador, String nombreEvento, String asiento, double subtotal, double servicio, double total){
      this.id = id;
      this.nombreComprador = nombreComprador;
      this.documentoComprador = documentoComprador;
