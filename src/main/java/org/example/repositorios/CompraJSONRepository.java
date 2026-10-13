@@ -25,14 +25,26 @@ public class CompraJSONRepository implements GuardableEnRepositorio {
     }
 
     @Override
-    public Compras buscarPorId(int id) {
-        // buscar compra en JSON
+    public Compras buscarPorId(String id) {
+        List<Compras> compras = obtenerTodas();
+        for (Compras compra : compras){
+            if compra.getId() == id {
+                return compra
+            }
+        }
         return null;
     }
 
     @Override
     public List<Compras> obtenerTodas() {
-        // leer todas las compras
+        // debuelve todas las compras guardadas en el archvo de compras
+        try (FileReader reader = new FileReader(archivo)) {
+            Type tipoLista = new TypeToken<List<Compras>>() {}.getType();
+            List<Compras> compras = gson.fromJson(reader, tipoLista);
+            if compras =! null{
+                return  compras
+            }
+        }
         return null;
     }
 

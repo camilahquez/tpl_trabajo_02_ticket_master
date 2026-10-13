@@ -77,5 +77,18 @@ public class Compras {
     public void setTotal(){
         this.total = total;
     }
+    @Override
+    public String  toString(){
+        return "Numero compra" + id +
+                "Nombre del comprador" + nombreComprador +
+                "evento" + nombreEvento +
+                "asiento" + asiento +
+                "cedula comprdor" + documentoComprador +
+                "correo comprador" + correoCoprador +
+                "subtotal" + subtotal +
+                "servicio" + servicio +
+                "total" + total 
+     }
+
 
 }
