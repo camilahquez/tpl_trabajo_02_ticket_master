@@ -1,4 +1,5 @@
-package org.example.repositorios.;
+package org.example.repositorios;
+import org.example.modelo.Asiento;
 import org.example.modelo.Compra;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -53,5 +54,6 @@ public class CompraJSONRepository implements GuardableEnRepositorio {
         }
         return null;
     }
+
 
 }

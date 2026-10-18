@@ -1,4 +1,4 @@
-package org.example.archivos;
+package org.example.repositorios;
 
 import org.example.modelo.Asiento;
 import java.io.BufferedReader;

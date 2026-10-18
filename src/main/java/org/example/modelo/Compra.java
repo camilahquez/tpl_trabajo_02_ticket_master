@@ -1,23 +1,23 @@
 package org.example.modelo;
-
+import org.example.modelo.Asiento;
 import java.util.List;
 
 public class Compra {
     private String id;
     private String nombreComprador;
     private String documentoComprador;
-    private String correoCoprador;
+    private String correoComprador;
     private String nombreEvento;
     private List<Asiento> asientos;
     private double subtotal;
     private  double servicio;
     private double total;
 
-    public Compra(String id, String nombreComprador, String documentoComprador, String correoCoprador, String nombreEvento, String asientos, double subtotal, double servicio, double total){
+    public Compra(String id, String nombreComprador, String documentoComprador, String correoComprador, String nombreEvento, List<Asiento> asientos, double subtotal, double servicio, double total){
      this.id = id;
      this.nombreComprador = nombreComprador;
      this.documentoComprador = documentoComprador;
-     this.correoCoprador = correoCoprador;
+     this.correoComprador = correoComprador;
      this.nombreEvento = nombreEvento;
      this.asientos = asientos;
      this.subtotal = subtotal;
@@ -34,14 +34,14 @@ public class Compra {
     public String getDocumentoComprador(){
         return documentoComprador;
     }
-    public String getCorreoCoprador(){
-        return correoCoprador;
+    public String getCorreoComprador(){
+        return correoComprador;
     }
     public String getNombreEvento(){
         return nombreEvento;
     }
-    public  String getAsiento(){
-        return asientos;
+    public  List<Asiento> getAsientos(){
+        return  asientos;
     }
     public  double getSubtotal(){
         return subtotal;
@@ -59,10 +59,10 @@ public class Compra {
         this.nombreComprador = nombreComprador;
     }
     public void setDocumentoComprador(){
-        this.correoCoprador = documentoComprador;
+        this.correoComprador = documentoComprador;
     }
     public void setCorreoCoprador(){
-        this.correoCoprador = correoCoprador;
+        this.correoComprador = correoComprador;
     }
     public void setNombreEvento(){
         this.nombreEvento = nombreEvento;
@@ -86,7 +86,7 @@ public class Compra {
                 "evento" + nombreEvento +
                 "asiento" + asientos +
                 "cedula comprdor" + documentoComprador +
-                "correo comprador" + correoCoprador +
+                "correo comprador" + correoComprador +
                 "subtotal" + subtotal +
                 "servicio" + servicio +
                 "total" + total;
