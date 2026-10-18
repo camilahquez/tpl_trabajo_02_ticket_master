@@ -6,7 +6,9 @@ import java.util.List;
 import java.io.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
+import org.example.excepciones.ErrorRepositorioCompraException;
+import com.google.gson.JsonParseException;
+import java.util.ArrayList;
 
 public class CompraJSONRepository implements GuardableEnRepositorio {
     private String archivo;
@@ -24,8 +26,10 @@ public class CompraJSONRepository implements GuardableEnRepositorio {
         compras.add(compra);
         try(FileWriter writer = new FileWriter(archivo)){
             gson.toJson(compra, writer);
-        }catch (Exception e){
-            throw new RuntimeException("Error al leer las compras", e);
+        }catch (IOException e) {
+            throw new ErrorRepositorioCompraException(
+                    "No se pudo guardar la compra en el archivo JSON.", e
+            );
         }
     }
 
@@ -43,14 +47,22 @@ public class CompraJSONRepository implements GuardableEnRepositorio {
     @Override
     public List<Compra> obtenerTodas() {
         // debuelve todas las compras guardadas en el archvo de compras
+
         try (FileReader reader = new FileReader(archivo)) {
+            File archivoCompras = new File(archivo);
+
+            if (!archivoCompras.exists()) {
+                return new ArrayList<>();
+            }
             Type tipoLista = new TypeToken<List<Compra>>() {}.getType();
             List<Compra> compras = gson.fromJson(reader, tipoLista);
             if (compras != null){
                 return  compras;
             }
-        }catch (Exception e){
-            throw new RuntimeException("Error al leer las compras", e);
+        }catch (IOException | JsonParseException e) {
+            throw new ErrorRepositorioCompraException(
+                    "No se pudieron leer las compras del archivo JSON.", e
+            );
         }
         return null;
     }
