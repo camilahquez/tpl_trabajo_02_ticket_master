@@ -1,8 +1,8 @@
 package org.example.servicio;
 
 import org.example.modelo.Asiento;
-import org.example.archivos.AsientoCSVRepository;
 import org.example.excepciones.AsientoNoDisponibleException;
+import org.example.repositorios.AsientoCSVRepository;
 
 import java.io.IOException;
 import java.util.ArrayList;
