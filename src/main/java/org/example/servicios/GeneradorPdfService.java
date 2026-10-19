@@ -32,10 +32,10 @@ public class GeneradorPdfService {
       contenido.endText();
   }
     private void agregarEncabezado(PDPageContentStream contenido, Compra compra) throws IOException {
-        contenido.setNonStrokingColor(20, 39, 71);
+        contenido.setNonStrokingColor(20 / 255f, 39 / 255f, 71 / 255f);
         contenido.addRect(0, 700, 595, 142);
         contenido.fill();
-        contenido.setNonStrokingColor(255, 255, 255);
+        contenido.setNonStrokingColor(1f, 1f, 1f);
         escribirTexto(contenido, "TICKET MASTER", 40, 800, 12, true);
         escribirTexto(contenido, compra.getNombreEvento(), 40, 755, 22, true);
 
@@ -44,14 +44,11 @@ public class GeneradorPdfService {
     private void agregarInformacionCompra(PDPageContentStream contenido, Compra compra, Asiento asiento) throws IOException
     {
         escribirTexto(contenido, "INFORMACION DE TU ENTRADA", 40, 660, 16, true);
-
         escribirTexto(contenido, "Comprador: " + compra.getNombreComprador(), 40, 620, 12, false);
-
         escribirTexto(contenido, "Evento: " + compra.getNombreEvento(), 40, 590, 12, false);
-
         escribirTexto(contenido, "Asiento: " + asiento.getCodigoAsiento(), 40, 550, 16, true);
         escribirTexto(contenido, "Compra: " + compra.getId(), 40, 520, 10, false);
-        contenido.setStrokingColor(190, 200, 215);
+        contenido.setStrokingColor(190 / 255f, 200 / 255f, 215 / 255f);
         contenido.moveTo(40, 490);
         contenido.lineTo(555, 490);
         contenido.stroke();
@@ -72,11 +69,7 @@ public class GeneradorPdfService {
 
             PDImageXObject imagenPDF = LosslessFactory.createFromImage(documento, imagenOriginal);
 
-            contenido.drawImage(
-                    imagenPDF,
-                    300, 350,
-                    245, 125
-            );
+            contenido.drawImage(imagenPDF, 300, 350, 245, 125);
         }
     }
     private void agregarQR(PDDocument documento, PDPageContentStream contenido, Compra compra, Asiento asiento) throws Exception {
@@ -110,6 +103,7 @@ public class GeneradorPdfService {
                 crearPaginaEntrada(documento, compra, asiento);
             }
             Path carpeta = Path.of("pdf-generados");
+            java.nio.file.Files.createDirectories(carpeta);
             String nombreArchivo = "entrada_" + compra.getId() + ".pdf";
             Path rutaPDF = carpeta.resolve(nombreArchivo);
             documento.save(rutaPDF.toFile());
