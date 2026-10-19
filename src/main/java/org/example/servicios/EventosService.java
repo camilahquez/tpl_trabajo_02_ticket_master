@@ -1,4 +1,4 @@
-package org.example.servicio;
+package org.example.servicios;
 
 import org.example.modelo.Eventos;
 import org.example.excepciones.EventoNoEncontradoException;
