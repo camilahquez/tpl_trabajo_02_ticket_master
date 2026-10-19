@@ -2,6 +2,7 @@ package org.example.servicios;
 
 import org.example.modelo.Eventos;
 import org.example.excepciones.EventoNoEncontradoException;
+import org.example.repositorios.EventosCSVRepository;
 
 import java.util.List;
 public class EventosService {
@@ -34,5 +35,19 @@ public class EventosService {
         catch (EventoNoEncontradoException e) {
             return false;
         }
+    }
+    public Eventos buscarEventoPorNombre(String nombreEvento) throws EventoNoEncontradoException {
+        if (nombreEvento != null) {
+            for (Eventos evento : eventos) {
+                if (evento.getNombreEvento().equalsIgnoreCase(nombreEvento.trim())) {
+                    return evento;
+                }
+            }
+        }
+        throw new EventoNoEncontradoException("No existe el evento con nombre: " + nombreEvento);
+    }
+    public String buscarRutaImagen(String nombreEvento) throws EventoNoEncontradoException {
+        Eventos evento = buscarEventoPorNombre(nombreEvento);
+        return evento.getRutaImagen();
     }
 }

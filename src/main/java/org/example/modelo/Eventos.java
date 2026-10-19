@@ -16,14 +16,16 @@ public class Eventos {
     private final LocalTime horaEvento;
     private final String lugarEvento;
     private final String tipoEvento;
+    private String rutaImagen;
 
-    public Eventos(String idEvento, String nombreEvento, LocalDate fechaEvento, LocalTime horaEvento, String lugarEvento, String tipoEvento) {
+    public Eventos(String idEvento, String nombreEvento, LocalDate fechaEvento, LocalTime horaEvento, String lugarEvento, String tipoEvento, String rutaImagen) {
         this.idEvento = idEvento;
         this.nombreEvento = nombreEvento;
         this.fechaEvento = fechaEvento;
         this.horaEvento = horaEvento;
         this.lugarEvento = lugarEvento;
         this.tipoEvento = tipoEvento;
+        this.rutaImagen = rutaImagen;
     }
 
     public String getIdEvento() {return idEvento;}
@@ -32,7 +34,7 @@ public class Eventos {
     public LocalTime getHoraEvento() {return horaEvento;}
     public String getLugarEvento() {return lugarEvento;}
     public String getTipoEvento() {return tipoEvento;}
-
+    public  String getRutaImagen(){return rutaImagen;}
     @Override
     public String toString() {
         return "Datos sobre el evento{" +
