@@ -1,9 +1,6 @@
 package org.example.servicios;
-
 import org.example.modelo.Asiento;
 import org.example.modelo.Compra;
-import org.example.servicios.CalculadoraCompraService;
-import org.example.servicios.ValidadorCompraService;
 import java.util.UUID;
 import java.util.List;
 import org.example.repositorios.CompraJSONRepository;
