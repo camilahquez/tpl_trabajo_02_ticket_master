@@ -1,9 +1,6 @@
 package org.example.servicios;
-
 import org.example.modelo.Asiento;
 import org.example.modelo.Compra;
-import org.example.servicios.CalculadoraCompraService;
-import org.example.servicios.ValidadorCompraService;
 import java.util.UUID;
 import java.util.List;
 import org.example.repositorios.CompraJSONRepository;
@@ -14,12 +11,14 @@ public class ComprasService {
     private final ValidadorCompraService validadorCompraService;
     private final AsientoService asientoService;
     private final AuditoriaService auditoriaService;
+    private final GeneradorPdfService generadorPdfService;
 
-    public ComprasService(CompraJSONRepository repositorio, ValidadorCompraService validadorCompraService, AsientoService asientoService, AuditoriaService auditoriaService) {
+    public ComprasService(CompraJSONRepository repositorio, ValidadorCompraService validadorCompraService, AsientoService asientoService, AuditoriaService auditoriaService, GeneradorPdfService generadorPdfService) {
         this.repositorio = repositorio;
         this.validadorCompraService = validadorCompraService;
         this.asientoService= asientoService;
         this.auditoriaService = auditoriaService;
+        this.generadorPdfService = generadorPdfService;
     }
     public String generarId() {
         return UUID.randomUUID().toString();
@@ -38,19 +37,18 @@ public class ComprasService {
          return compra;
     } return null;
     }
-    public boolean confirmarCompra(Compra compra) {
+    public boolean confirmarCompra(Compra compra) throws  Exception {
         if (compra == null) {
             auditoriaService.registrar("Error la compra es nula");
             return false;
-
         }
-
         try {
             for (Asiento asiento : compra.getAsientos()) {
                asientoService.reservarAsiento(asiento.getIdEvento(), asiento.getCodigoAsiento());
             }
             repositorio.guardar(compra);
             auditoriaService.registrar("Compra guardada correctamente, id: " + compra.getId());
+            generadorPdfService.generarPDF(compra);
             return true;
             }catch (AsientoNoDisponibleException e) {
             System.err.println(e.getMessage());
