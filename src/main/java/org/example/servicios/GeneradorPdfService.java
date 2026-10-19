@@ -13,7 +13,16 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.example.excepciones.EventoNoEncontradoException;
+
 public class GeneradorPdfService {
+    private final EventosService eventosService;
+    private final GeneradorQRService generadorQRService;
+    public GeneradorPdfService(EventosService eventosService, GeneradorQRService generadorQRService) {
+        this.eventosService = eventosService;
+        this.generadorQRService = generadorQRService;
+    }
+
   private  void escribirTexto(PDPageContentStream contenido, String texto, float x, float y, int tamano, boolean negrita) throws IOException {
       PDType1Font fuente = new PDType1Font(negrita ? Standard14Fonts.FontName.HELVETICA_BOLD : Standard14Fonts.FontName.HELVETICA);
       contenido.beginText();
@@ -49,7 +58,6 @@ public class GeneradorPdfService {
     //agregarImagenEvento()
     private void agregarImagenEvento(PDDocument documento, PDPageContentStream contenido, String rutaImagen) throws IOException {
 
-
         try (InputStream entrada = GeneradorPdfService.class.getResourceAsStream(rutaImagen)) {
 
             if (entrada == null) {
@@ -72,17 +80,16 @@ public class GeneradorPdfService {
     }
     private void agregarQR(PDDocument documento, PDPageContentStream contenido, Compra compra, Asiento asiento) throws Exception {
 
-        //linea para generar el qr
-       // GeneradorQRService generadorQR = new GeneradorQRService();
+        GeneradorQRService generadorQR = new GeneradorQRService();
         String informacionQR = compra.getId() + "|" + asiento.getCodigoAsiento();
 
-        //BufferedImage imagenQR = generadorQR.generarQR(informacionQR);
-        //PDImageXObject qrPDF = LosslessFactory.createFromImage(documento, imagenQR);
+        BufferedImage imagenQR = generadorQR.generarQR(informacionQR);
+        PDImageXObject qrPDF = LosslessFactory.createFromImage(documento, imagenQR);
 
-        //contenido.drawImage(qrPDF, 400, 250, 100, 100);
+        contenido.drawImage(qrPDF, 400, 250, 100, 100);
     }
-    //crearPaginaEntrada()
-    private void crearPaginaEntrada(PDDocument documento, Compra compra, Asiento asiento) throws IOException {
+
+    private void crearPaginaEntrada(PDDocument documento, Compra compra, Asiento asiento) throws Exception {
 
         PDPage pagina = new PDPage(PDRectangle.A4);
         documento.addPage(pagina);
@@ -92,16 +99,24 @@ public class GeneradorPdfService {
 
             agregarEncabezado(contenido, compra);
             agregarInformacionCompra(contenido, compra, asiento);
-
-            // 6. Agregar la imagen correspondiente al evento
-            // Aquí debes pasar el nombre de la imagen del evento.
-            // agregarImagenEvento(documento, contenido, nombreImagen);
-
-            // 7. Agregar el código QR cuando esté listo el método
-            // de tu compañero.
-            // agregarQR(documento, contenido, compra, asiento);
+            String rutaImagen = eventosService.buscarRutaImagen(compra.getNombreEvento())
+            agregarImagenEvento(documento, contenido, rutaImagen);
+            agregarQR(documento, contenido, compra, asiento);
         }
     }
-    //generarPDF()
+    public String generarPDF(Compra compra) throws Exception{
+
+        try (PDDocument documento = new PDDocument()) {
+            for (Asiento asiento : compra.getAsientos()) {
+
+                crearPaginaEntrada(documento, compra, asiento);
+            }
+            String nombreArchivo = "entrada_" + compra.getId() + ".pdf";
+
+            documento.save(nombreArchivo);
+        }
+
+
+    }
 
 }

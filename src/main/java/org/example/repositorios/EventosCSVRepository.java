@@ -17,7 +17,7 @@ import java.util.List;
 
 public class EventosCSVRepository {
     private static final String separador=";";
-    private static final int columnasEsperadas= 6;
+    private static final int columnasEsperadas= 7;
 
     private static final DateTimeFormatter formatoFecha=
             DateTimeFormatter.ofPattern( "d/M/yyyy" );
@@ -67,8 +67,9 @@ public class EventosCSVRepository {
             LocalTime horaEvento = LocalTime.parse(datos[3].trim(), formatoHora);
             String lugarEvento = datos[4].trim();
             String tipoEvento = datos[5].trim();
+            String rutaImagen = datos[6].trim();
 
-            return new Eventos(idEvento, nombreEvento, fechaEvento, horaEvento, lugarEvento, tipoEvento);
+            return new Eventos(idEvento, nombreEvento, fechaEvento, horaEvento, lugarEvento, tipoEvento, rutaImagen);
 
         } catch (DateTimeParseException e) {
             throw new ArchivoDatosException(
