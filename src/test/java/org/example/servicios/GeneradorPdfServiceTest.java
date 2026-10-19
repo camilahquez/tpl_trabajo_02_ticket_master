@@ -28,8 +28,10 @@ class GeneradorPdfServiceTest {
         GeneradorQRService generadorQRService = new GeneradorQRService();
         GeneradorPdfService generadorPdfService = new GeneradorPdfService(eventosService, generadorQRService);
         Asiento asiento = new Asiento("001D", "00111F", "ALTA", "60", 80, 150000.0);
+        Asiento asiento1 = new Asiento("001D", "00111Fl", "ALTA", "60", 83, 150000.0);
         List<Asiento> asientos = new ArrayList<>();
         asientos.add(asiento);
+        asientos.add(asiento1);
         Compra compra = new Compra("prueba-pdf-001", "Ana Perez", "123456789", "ana@example.com", "Concierto", asientos, 150000.0, 15000.0, 165000.0);
         String rutaGenerada = generadorPdfService.generarPDF(compra);
         System.out.println("PDF generado en: " + rutaGenerada);
@@ -37,7 +39,7 @@ class GeneradorPdfServiceTest {
         assertTrue(Files.exists(archivoPDF));
         assertTrue(Files.size(archivoPDF) > 0);
         try (PDDocument documento = org.apache.pdfbox.Loader.loadPDF(archivoPDF.toFile())) {
-            assertEquals(1, documento.getNumberOfPages());
+            assertEquals(asientos.size(), documento.getNumberOfPages());
         }
 
     }
