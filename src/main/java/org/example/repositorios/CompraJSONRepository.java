@@ -21,11 +21,10 @@ public class CompraJSONRepository implements GuardableEnRepositorio {
 
     @Override
     public void guardar(Compra compra) {
-        // guardar compra en JSON
         List<Compra> compras = obtenerTodas();
         compras.add(compra);
         try(FileWriter writer = new FileWriter(archivo)){
-            gson.toJson(compra, writer);
+            gson.toJson(compras, writer);
         }catch (IOException e) {
             throw new ErrorRepositorioCompraException(
                     "No se pudo guardar la compra en el archivo JSON.", e
@@ -46,25 +45,24 @@ public class CompraJSONRepository implements GuardableEnRepositorio {
 
     @Override
     public List<Compra> obtenerTodas() {
-        // debuelve todas las compras guardadas en el archvo de compras
-
+        File archivoCompras = new File(archivo);
+        if (!archivoCompras.exists()) {
+            return new ArrayList<>();
+        }
         try (FileReader reader = new FileReader(archivo)) {
-            File archivoCompras = new File(archivo);
-
-            if (!archivoCompras.exists()) {
-                return new ArrayList<>();
-            }
             Type tipoLista = new TypeToken<List<Compra>>() {}.getType();
             List<Compra> compras = gson.fromJson(reader, tipoLista);
-            if (compras != null){
-                return  compras;
+
+            if (compras != null) {
+                return compras;
             }
+            return new ArrayList<>();
+
         }catch (IOException | JsonParseException e) {
             throw new ErrorRepositorioCompraException(
-                    "No se pudieron leer las compras del archivo JSON.", e
+                    "No se pudo leer el archivo compras.JSON.", e
             );
         }
-        return null;
     }
 
 

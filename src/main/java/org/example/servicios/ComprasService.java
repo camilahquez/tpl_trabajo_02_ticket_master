@@ -13,11 +13,13 @@ public class ComprasService {
     private final CompraJSONRepository repositorio;
     private final ValidadorCompraService validadorCompraService;
     private final AsientoService asientoService;
+    private final AuditoriaService auditoriaService;
 
-    public ComprasService(CompraJSONRepository repositorio, ValidadorCompraService validadorCompraService, AsientoService asientoService) {
+    public ComprasService(CompraJSONRepository repositorio, ValidadorCompraService validadorCompraService, AsientoService asientoService, AuditoriaService auditoriaService) {
         this.repositorio = repositorio;
         this.validadorCompraService = validadorCompraService;
         this.asientoService= asientoService;
+        this.auditoriaService = auditoriaService;
     }
     public String generarId() {
         return UUID.randomUUID().toString();
@@ -38,22 +40,21 @@ public class ComprasService {
     }
     public boolean confirmarCompra(Compra compra) {
         if (compra == null) {
+            auditoriaService.registrar("Error la compra es nula");
             return false;
+
         }
 
         try {
             for (Asiento asiento : compra.getAsientos()) {
-                asientoService.reservarAsiento(
-                        asiento.getIdEvento(),
-                        asiento.getCodigoAsiento()
-                );
+               asientoService.reservarAsiento(asiento.getIdEvento(), asiento.getCodigoAsiento());
             }
-
             repositorio.guardar(compra);
+            auditoriaService.registrar("Compra guardada correctamente, id: " + compra.getId());
             return true;
-
-        } catch (AsientoNoDisponibleException e) {
+            }catch (AsientoNoDisponibleException e) {
             System.err.println(e.getMessage());
+            auditoriaService.registrar("No se realizo la compra, asintos no disponibles");
             return false;
         }
     }
