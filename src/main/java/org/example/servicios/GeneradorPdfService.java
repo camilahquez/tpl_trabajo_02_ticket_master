@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.example.excepciones.EventoNoEncontradoException;
+import java.nio.file.Path;
 
 public class GeneradorPdfService {
     private final EventosService eventosService;
@@ -35,6 +35,7 @@ public class GeneradorPdfService {
         contenido.setNonStrokingColor(20, 39, 71);
         contenido.addRect(0, 700, 595, 142);
         contenido.fill();
+        contenido.setNonStrokingColor(255, 255, 255);
         escribirTexto(contenido, "TICKET MASTER", 40, 800, 12, true);
         escribirTexto(contenido, compra.getNombreEvento(), 40, 755, 22, true);
 
@@ -80,12 +81,9 @@ public class GeneradorPdfService {
     }
     private void agregarQR(PDDocument documento, PDPageContentStream contenido, Compra compra, Asiento asiento) throws Exception {
 
-        GeneradorQRService generadorQR = new GeneradorQRService();
         String informacionQR = compra.getId() + "|" + asiento.getCodigoAsiento();
-
-        BufferedImage imagenQR = generadorQR.generarQR(informacionQR);
+        BufferedImage imagenQR = generadorQRService.generarQR(informacionQR);
         PDImageXObject qrPDF = LosslessFactory.createFromImage(documento, imagenQR);
-
         contenido.drawImage(qrPDF, 400, 250, 100, 100);
     }
 
@@ -99,24 +97,24 @@ public class GeneradorPdfService {
 
             agregarEncabezado(contenido, compra);
             agregarInformacionCompra(contenido, compra, asiento);
-            String rutaImagen = eventosService.buscarRutaImagen(compra.getNombreEvento())
+            String rutaImagen = eventosService.buscarRutaImagen(compra.getNombreEvento());
             agregarImagenEvento(documento, contenido, rutaImagen);
             agregarQR(documento, contenido, compra, asiento);
         }
     }
-    public String generarPDF(Compra compra) throws Exception{
+    public String generarPDF(Compra compra) throws Exception {
 
         try (PDDocument documento = new PDDocument()) {
-            for (Asiento asiento : compra.getAsientos()) {
 
+            for (Asiento asiento : compra.getAsientos()) {
                 crearPaginaEntrada(documento, compra, asiento);
             }
+            Path carpeta = Path.of("pdf-generados");
             String nombreArchivo = "entrada_" + compra.getId() + ".pdf";
-
-            documento.save(nombreArchivo);
+            Path rutaPDF = carpeta.resolve(nombreArchivo);
+            documento.save(rutaPDF.toFile());
+            return rutaPDF.toAbsolutePath().toString();
         }
-
-
     }
 
 }
