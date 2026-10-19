@@ -43,17 +43,15 @@ public class GeneradorPdfService {
     }
     private void agregarInformacionCompra(PDPageContentStream contenido, Compra compra, Asiento asiento) throws IOException
     {
+        contenido.setNonStrokingColor(0f, 0f, 0f);
         escribirTexto(contenido, "INFORMACION DE TU ENTRADA", 40, 660, 16, true);
         escribirTexto(contenido, "Comprador: " + compra.getNombreComprador(), 40, 620, 12, false);
         escribirTexto(contenido, "Evento: " + compra.getNombreEvento(), 40, 590, 12, false);
         escribirTexto(contenido, "Asiento: " + asiento.getCodigoAsiento(), 40, 550, 16, true);
         escribirTexto(contenido, "Compra: " + compra.getId(), 40, 520, 10, false);
-        contenido.setStrokingColor(190 / 255f, 200 / 255f, 215 / 255f);
-        contenido.moveTo(40, 490);
-        contenido.lineTo(555, 490);
-        contenido.stroke();
+
     }
-    //agregarImagenEvento()
+
     private void agregarImagenEvento(PDDocument documento, PDPageContentStream contenido, String rutaImagen) throws IOException {
 
         try (InputStream entrada = GeneradorPdfService.class.getResourceAsStream(rutaImagen)) {
@@ -69,7 +67,7 @@ public class GeneradorPdfService {
 
             PDImageXObject imagenPDF = LosslessFactory.createFromImage(documento, imagenOriginal);
 
-            contenido.drawImage(imagenPDF, 300, 350, 245, 125);
+            contenido.drawImage(imagenPDF, 330, 520, 220, 140);
         }
     }
     private void agregarQR(PDDocument documento, PDPageContentStream contenido, Compra compra, Asiento asiento) throws Exception {
@@ -77,7 +75,7 @@ public class GeneradorPdfService {
         String informacionQR = compra.getId() + "|" + asiento.getCodigoAsiento();
         BufferedImage imagenQR = generadorQRService.generarQR(informacionQR);
         PDImageXObject qrPDF = LosslessFactory.createFromImage(documento, imagenQR);
-        contenido.drawImage(qrPDF, 400, 250, 100, 100);
+        contenido.drawImage(qrPDF, 385, 370, 110, 110);
     }
 
     private void crearPaginaEntrada(PDDocument documento, Compra compra, Asiento asiento) throws Exception {
@@ -102,7 +100,7 @@ public class GeneradorPdfService {
             for (Asiento asiento : compra.getAsientos()) {
                 crearPaginaEntrada(documento, compra, asiento);
             }
-            Path carpeta = Path.of("pdf-generados");
+            Path carpeta = Path.of(System.getProperty("user.dir"), "src", "main", "resources", "pdf-generados");
             java.nio.file.Files.createDirectories(carpeta);
             String nombreArchivo = "entrada_" + compra.getId() + ".pdf";
             Path rutaPDF = carpeta.resolve(nombreArchivo);

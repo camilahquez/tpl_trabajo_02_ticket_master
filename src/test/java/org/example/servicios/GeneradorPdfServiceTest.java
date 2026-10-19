@@ -32,12 +32,13 @@ class GeneradorPdfServiceTest {
         asientos.add(asiento);
         Compra compra = new Compra("prueba-pdf-001", "Ana Perez", "123456789", "ana@example.com", "Concierto", asientos, 150000.0, 15000.0, 165000.0);
         String rutaGenerada = generadorPdfService.generarPDF(compra);
+        System.out.println("PDF generado en: " + rutaGenerada);
         Path archivoPDF = Path.of(rutaGenerada);
         assertTrue(Files.exists(archivoPDF));
         assertTrue(Files.size(archivoPDF) > 0);
         try (PDDocument documento = org.apache.pdfbox.Loader.loadPDF(archivoPDF.toFile())) {
             assertEquals(1, documento.getNumberOfPages());
         }
-        Files.deleteIfExists(archivoPDF);
+
     }
 }
