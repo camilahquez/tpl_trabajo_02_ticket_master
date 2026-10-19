@@ -5,13 +5,15 @@ import java.util.UUID;
 import java.util.List;
 import org.example.repositorios.CompraJSONRepository;
 import org.example.excepciones.AsientoNoDisponibleException;
-
+import java.awt.Desktop;
+import java.io.File;
 public class ComprasService {
     private final CompraJSONRepository repositorio;
     private final ValidadorCompraService validadorCompraService;
     private final AsientoService asientoService;
     private final AuditoriaService auditoriaService;
     private final GeneradorPdfService generadorPdfService;
+
 
     public ComprasService(CompraJSONRepository repositorio, ValidadorCompraService validadorCompraService, AsientoService asientoService, AuditoriaService auditoriaService, GeneradorPdfService generadorPdfService) {
         this.repositorio = repositorio;
@@ -48,7 +50,11 @@ public class ComprasService {
             }
             repositorio.guardar(compra);
             auditoriaService.registrar("Compra guardada correctamente, id: " + compra.getId());
-            generadorPdfService.generarPDF(compra);
+            String pdfRuta = generadorPdfService.generarPDF(compra);
+            File archivo = new File(pdfRuta);
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(archivo);
+            }
             return true;
             }catch (AsientoNoDisponibleException e) {
             System.err.println(e.getMessage());
@@ -56,5 +62,18 @@ public class ComprasService {
             return false;
         }
     }
-    
+    public List<Compra> obtenerCompras(){
+        return repositorio.obtenerTodas();
+    }
+    public Compra buscarCompra(String nombreComprador, String nombreEvento){
+       List<Compra> compras = obtenerCompras();
+       for (Compra compra: compras){
+           if (compra.getNombreComprador() == nombreComprador &&  compra.getNombreEvento() == nombreEvento){
+               return compra;
+           }
+       }
+       System.out.println("No  se encontro la compra");
+       return null;
+    }
+
 }
