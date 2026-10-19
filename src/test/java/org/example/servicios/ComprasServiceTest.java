@@ -61,5 +61,74 @@ public class ComprasServiceTest {
         org.mockito.Mockito.verify(repositorio, org.mockito.Mockito.never()).guardar(compra);
         org.mockito.Mockito.verify(generadorPdfService, org.mockito.Mockito.never()).generarPDF(compra);
     }
+    @Test
+    void validarCompraDebeRechazarCorreoInvalido() {
+
+        org.mockito.Mockito.when(validadorCompraService.verificarCorreo("correo-invalido"))
+                .thenReturn(false);
+
+        boolean resultado = comprasService.validarCompra(
+                "Ana Perez",
+                "123456789",
+                "correo-invalido",
+                "Concierto",
+                new ArrayList<>()
+        );
+
+        org.junit.jupiter.api.Assertions.assertFalse(resultado);
+    }
+    @Test
+    void validarCompraDebeRechazarNombreVacio() {
+
+        org.mockito.Mockito.when(validadorCompraService.verificarCorreo("ana@example.com"))
+                .thenReturn(true);
+        org.mockito.Mockito.when(validadorCompraService.validarEvento("Concierto"))
+                .thenReturn(true);
+        org.mockito.Mockito.when(validadorCompraService.verificarSeleccionAsientos(new ArrayList<>()))
+                .thenReturn(true);
+        org.mockito.Mockito.when(validadorCompraService.verificarCedula("123456789"))
+                .thenReturn(true);
+        org.mockito.Mockito.when(validadorCompraService.verificarNombre(""))
+                .thenReturn(false);
+
+        boolean resultado = comprasService.validarCompra(
+                "",
+                "123456789",
+                "ana@example.com",
+                "Concierto",
+                new ArrayList<>()
+        );
+
+        org.junit.jupiter.api.Assertions.assertFalse(resultado);
+    }
+    @Test
+    void confirmarCompraDebeGenerarPDF() throws Exception {
+
+        Asiento asiento = new Asiento(
+                "001D", "00111F", "ALTA", "60", 80, 150000.0
+        );
+
+        List<Asiento> asientos = new ArrayList<>();
+        asientos.add(asiento);
+
+        Compra compra = new Compra(
+                "compra-test-003",
+                "Ana Perez",
+                "123456789",
+                "ana@example.com",
+                "Concierto",
+                asientos,
+                150000.0,
+                15000.0,
+                165000.0
+        );
+
+        boolean resultado = comprasService.confirmarCompra(compra);
+
+        org.junit.jupiter.api.Assertions.assertTrue(resultado);
+
+        org.mockito.Mockito.verify(generadorPdfService)
+                .generarPDF(compra);
+    }
 
 }
