@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="273a5226-1164-49f1-9d78-582d99596849" name="Changes" comment="" />
+    <list default="true" id="273a5226-1164-49f1-9d78-582d99596849" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/auditoria.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Data/auditoria.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/compras.json" beforeDir="false" afterPath="$PROJECT_DIR$/Data/compras.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/servicios/GeneradorPdfService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/servicios/GeneradorPdfService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,7 +57,7 @@
       <recent name="C:\Repositories\tpl_trabajo_02_ticket_master\src\main\java\org\example\servicio" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CompraJSONRepositoryTest">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.Main" />
       <module name="ticket_master" />
@@ -141,8 +146,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.CompraJSONRepositoryTest" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.CompraJSONRepositoryTest" />
         <item itemvalue="JUnit.ValidadorCompraServiceTest" />
         <item itemvalue="JUnit.GeneradorPdfServiceTest" />
         <item itemvalue="JUnit.EventosServiceTest" />
