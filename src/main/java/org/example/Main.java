@@ -32,7 +32,7 @@ public class Main  {
       //servicio principal
       ComprasService comprasService = new ComprasService(compraRepository, validadorCompraService, asientoService, auditoriaService, generadorPdfService);
       //menu
-      MenuPrincipal menu = new MenuPrincipal(eventosService, asientoService, comprasService, generadorPdfService);
+      MenuPrincipal menu = new MenuPrincipal(eventosService, asientoService, comprasService, generadorPdfService,auditoriaService);
       menu.mostrarMenu();
 
 

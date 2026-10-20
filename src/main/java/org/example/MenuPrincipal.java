@@ -1,12 +1,9 @@
 package org.example;
 import  org.example.excepciones.EventoNoEncontradoException;
-import org.example.servicios.AsientoService;
-import org.example.servicios.ComprasService;
-import org.example.servicios.EventosService;
+import org.example.servicios.*;
 import org.example.modelo.Eventos;
 import org.example.modelo.Asiento;
 import org.example.modelo.Compra;
-import org.example.servicios.GeneradorPdfService;
 
 import java.awt.*;
 import java.io.File;
@@ -21,12 +18,14 @@ public class MenuPrincipal {
     private final AsientoService asientoService;
     private final ComprasService comprasService;
     private  final GeneradorPdfService generadorPdfService;
+    private  final AuditoriaService auditoriaService;
 
-    public MenuPrincipal(EventosService eventosService, AsientoService asientoService, ComprasService comprasService, GeneradorPdfService generadorPdfService) {
+    public MenuPrincipal(EventosService eventosService, AsientoService asientoService, ComprasService comprasService, GeneradorPdfService generadorPdfService, AuditoriaService auditoriaService) {
         this.eventosService = eventosService;
         this.asientoService = asientoService;
         this.comprasService = comprasService;
         this.generadorPdfService = generadorPdfService;
+        this.auditoriaService =auditoriaService;
     }
 
     public void mostrarMenu() throws Exception {
@@ -39,7 +38,8 @@ public class MenuPrincipal {
             System.out.println("3. Consultar compras");
             System.out.println("4. Generar ticket PDF");
             System.out.println("5. Consultar reportes de ventas");
-            System.out.println("6. Salir");
+            System.out.println("6.Auditoria");
+            System.out.println("7. Salir");
             System.out.print("Seleccione una opción: ");
 
             if (!scanner.hasNextInt()) {System.out.println("Debe ingresar un número válido.");scanner.nextLine();
@@ -66,12 +66,14 @@ public class MenuPrincipal {
                     consultarReportes();
                     break;
                 case 6:
+                    mostrarAuditoria();
+                case 7:
                     System.out.println("Gracias por utilizar la tiquetera.");
                 default:
                     System.out.println("Opción inválida. Intente nuevamente.");
             }
 
-        } while (opcion != 6);
+        } while (opcion != 7);
     }
 
     private void consultarEventos() {
@@ -137,5 +139,10 @@ public class MenuPrincipal {
     private void consultarReportes() {
         System.out.println("Consultar reportes de ventas");
         // Calcular estadísticas y generar el reporte
+    }
+    private void mostrarAuditoria(){
+        System.out.println("\n--- AUDITORÍA ---");
+        System.out.println(auditoriaService.mostrarRegistros());
+
     }
 }
