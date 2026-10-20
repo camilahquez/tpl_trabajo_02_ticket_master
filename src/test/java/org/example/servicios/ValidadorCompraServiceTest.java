@@ -25,9 +25,8 @@ class ValidadorCompraServiceTest {
                 EV001;VIP-A-01;VIP;A;1;350000
                 """);
         AsientoService asientoService = new AsientoService(csv.toString());
-        EventosService eventosService = new EventosService(List.of());
 
-        validador = new ValidadorCompraService(asientoService, eventosService);
+        validador = new ValidadorCompraService(asientoService);
     }
     @ParameterizedTest
     @ValueSource(strings = {"laura@correo.com", "laura.gomez@mail.co", "l_g-1@uni.edu.co"})

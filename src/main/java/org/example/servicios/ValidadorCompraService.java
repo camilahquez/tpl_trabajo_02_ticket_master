@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ValidadorCompraService {
     private final AsientoService asientoService;
-    public ValidadorCompraService(AsientoService asientoService, EventosService eventosService){
+    public ValidadorCompraService(AsientoService asientoService){
         this.asientoService = asientoService;
     }
 
