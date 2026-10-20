@@ -82,14 +82,14 @@ public class Compra {
     @Override
     public String  toString(){
         return "Numero compra" + id +
-                "Nombre del comprador" + nombreComprador +
-                "evento" + nombreEvento +
-                "asiento" + asientos +
-                "cedula comprdor" + documentoComprador +
-                "correo comprador" + correoComprador +
-                "subtotal" + subtotal +
-                "servicio" + servicio +
-                "total" + total;
+                "Nombre del comprador: " + nombreComprador +
+                ", evento: " + nombreEvento +
+                ", asiento: " + asientos +
+                ", edula comprdor: " + documentoComprador +
+                ", correo comprador: " + correoComprador +
+                ", subtotal: " + subtotal +
+                ", servicio: " + servicio +
+                ", total: " + total;
      }
 
 

@@ -1,6 +1,8 @@
 package org.example.servicios;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.example.excepciones.EventoNoEncontradoException;
 import org.junit.jupiter.api.Test;
 import org.example.modelo.Asiento;
 import org.example.modelo.Compra;
@@ -9,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.example.repositorios.CompraJSONRepository;
-
+import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
@@ -40,6 +42,7 @@ public class ComprasServiceTest {
         List<Asiento> asientos = new ArrayList<>();
         asientos.add(asiento);
         Compra compra = new Compra("compra-test-001", "Ana Perez", "123456789", "ana@example.com", "Concierto", asientos, 150000.0, 15000.0, 165000.0);
+        when(generadorPdfService.generarPDF(compra)).thenReturn("entrada-test.pdf");
         boolean resultado = comprasService.confirmarCompra(compra);
         assertTrue(resultado);
         verify(asientoService).reservarAsiento(asiento.getIdEvento(), asiento.getCodigoAsiento());
@@ -62,7 +65,7 @@ public class ComprasServiceTest {
         org.mockito.Mockito.verify(generadorPdfService, org.mockito.Mockito.never()).generarPDF(compra);
     }
     @Test
-    void validarCompraDebeRechazarCorreoInvalido() {
+    void validarCompraDebeRechazarCorreoInvalido() throws EventoNoEncontradoException {
 
         org.mockito.Mockito.when(validadorCompraService.verificarCorreo("correo-invalido"))
                 .thenReturn(false);
@@ -78,7 +81,7 @@ public class ComprasServiceTest {
         org.junit.jupiter.api.Assertions.assertFalse(resultado);
     }
     @Test
-    void validarCompraDebeRechazarNombreVacio() {
+    void validarCompraDebeRechazarNombreVacio() throws EventoNoEncontradoException {
 
         org.mockito.Mockito.when(validadorCompraService.verificarCorreo("ana@example.com"))
                 .thenReturn(true);

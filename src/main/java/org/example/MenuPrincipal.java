@@ -1,10 +1,11 @@
 package org.example;
-import  org.example.excepciones.EventoNoEncontradoException;
 import org.example.servicios.*;
 import org.example.modelo.Eventos;
 import org.example.modelo.Asiento;
 import org.example.modelo.Compra;
-
+import org.example.excepciones.ErrorReporteException;
+import org.example.servicios.ReporteService;
+import org.example.servicios.GraficaService;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -19,13 +20,17 @@ public class MenuPrincipal {
     private final ComprasService comprasService;
     private  final GeneradorPdfService generadorPdfService;
     private  final AuditoriaService auditoriaService;
+    private final GraficaService graficaService;
+    private final ReporteService reporteService;
 
-    public MenuPrincipal(EventosService eventosService, AsientoService asientoService, ComprasService comprasService, GeneradorPdfService generadorPdfService, AuditoriaService auditoriaService) {
+    public MenuPrincipal(EventosService eventosService, AsientoService asientoService, ComprasService comprasService, GeneradorPdfService generadorPdfService, AuditoriaService auditoriaService, GraficaService graficaService, ReporteService reporteService) {
         this.eventosService = eventosService;
         this.asientoService = asientoService;
         this.comprasService = comprasService;
         this.generadorPdfService = generadorPdfService;
         this.auditoriaService =auditoriaService;
+        this.graficaService = graficaService;
+        this.reporteService = reporteService;
     }
 
     public void mostrarMenu() throws Exception {
@@ -78,8 +83,16 @@ public class MenuPrincipal {
 
     private void consultarEventos() {
         System.out.println("Consultar eventos");
-
-
+        List<Eventos> eventos = eventosService.obtenerEventos();
+        for (Eventos evento : eventos){
+            System.out.println(evento.getNombreEvento());
+        }
+    }
+    private void mostrasCodigoAsientos( String idEvento){
+        List<Asiento> asientos = asientoService.obtenerAsientosPorEvento(idEvento);
+        for(Asiento asiento : asientos){
+            System.out.println(asiento.getCodigoAsiento());
+        }
     }
 
     private void comprarBoletas() throws Exception {
@@ -88,7 +101,6 @@ public class MenuPrincipal {
         System.out.println("Ingresa nombre del evento: ");
         String nombreEvento = scanner.nextLine();
         Eventos evento = eventosService.buscarEventoPorNombre(nombreEvento);
-        asientoService.obtenerAsientosPorEvento(evento.getIdEvento());
         List<String> codigosAsistos = new ArrayList<>();
         System.out.println("Ingresa  nombre del comprador: ");
         String nombreComprador = scanner.nextLine();
@@ -96,29 +108,44 @@ public class MenuPrincipal {
         String documentoComprador = scanner.nextLine();
         System.out.println("Ingresa correo del comprador: ");
         String correoComprador = scanner.nextLine();
+        mostrasCodigoAsientos(evento.getIdEvento());
         System.out.println("Ingresa la cantidad de asientos que se van a comprar:  ");
         int cantidadAsisntos = scanner.nextInt();
-        for (int i = 0; i <= cantidadAsisntos; i++){
-            System.out.println("Ingresa el numero del "+ i+1 + "º asiento: ");
+        scanner.nextLine();
+        for (int i = 0; i < cantidadAsisntos; i++){
+            int j = i +1;
+            System.out.println("Ingresa el numero del "+  j + "º asiento: ");
             String codigoAsiento = scanner.nextLine();
             codigosAsistos.add(codigoAsiento);
         }
         List<Asiento> asientos = new ArrayList<>();
-        for (int i = 0; i <= cantidadAsisntos; i++){
+        for (int i = 0; i < cantidadAsisntos; i++){
            Asiento asiento = asientoService.buscarAsiento(evento.getIdEvento(), codigosAsistos.get(i));
             if (asiento != null){
                 asientos.add(asiento);
-            }
+            } }
             Compra compra =comprasService.realizarCompra(nombreComprador,documentoComprador, correoComprador, nombreEvento, asientos);
-            comprasService.confirmarCompra(compra);
+        if (compra == null) {
+            System.out.println("No se pudo hacer la compra. Verifica los datos ingresados.");
+            return;
+        }
 
+        boolean confirmada = comprasService.confirmarCompra(compra);
+
+        if (confirmada) {
+            System.out.println("Compra realizada correctamente");
+        } else {
+            System.out.println("No se pudo confirmar la compra");
         }
 
     }
 
     private void consultarCompras() {
         System.out.println("Consultar compras");
-
+        List<Compra> compras = comprasService.obtenerCompras();
+        for(Compra compra : compras){
+            System.out.println(compra);
+        }
     }
 
     private void generarTicket() throws Exception {
@@ -128,6 +155,9 @@ public class MenuPrincipal {
         System.out.println("ingresa el nombre del evento");
         String nombreEvento = scanner.nextLine();
         Compra compra =  comprasService.buscarCompra(nombreComprador, nombreEvento);
+        if (compra == null){
+            System.out.println("ERROR compra no encontrada");
+        }
         String rutapdf =generadorPdfService.generarPDF(compra);
         File archivo = new File(rutapdf);
         if (Desktop.isDesktopSupported()) {
@@ -138,7 +168,17 @@ public class MenuPrincipal {
 
     private void consultarReportes() {
         System.out.println("Consultar reportes de ventas");
-        // Calcular estadísticas y generar el reporte
+        System.out.println("\n===== CONSULTAR REPORTES =====");
+
+        try {
+            reporteService.generarReporte();
+
+            System.out.println("Reporte generado correctamente.");
+            System.out.println("Se guardó en: reportes/ventas_por_evento.pdf");
+
+        } catch (ErrorReporteException e) {
+            System.out.println("Error al generar el reporte: " + e.getMessage());
+        }
     }
     private void mostrarAuditoria(){
         System.out.println("\n--- AUDITORÍA ---");
