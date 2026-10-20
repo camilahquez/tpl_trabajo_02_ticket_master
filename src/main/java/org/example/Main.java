@@ -1,19 +1,46 @@
 package org.example;
+import org.example.repositorios.AsientoCSVRepository;
+import org.example.repositorios.CompraJSONRepository;
+import org.example.repositorios.EventosCSVRepository;
+import org.example.modelo.Eventos;
+import  org.example.servicios.AsientoService;
+import  org.example.servicios.EventosService;
+import  org.example.servicios.ComprasService;
+import  org.example.servicios.AuditoriaService;
+import  org.example.servicios.GeneradorQRService;
+import  org.example.servicios.GeneradorPdfService;
+import  org.example.servicios.ValidadorCompraService;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
-public class Main {
-    public static void main(String[] args) {
-        // Press Alt+Intro with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import java.util.List;
 
-        // Press Mayús+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
 
-            // Press Mayús+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
-        }
-    }
+public class Main  {
+  public static  void main(String[] arg) throws Exception{
+      // inicilizar repositorios
+      EventosCSVRepository eventosRepository = new EventosCSVRepository("Data/eventos.csv");
+      List<Eventos> eventos = eventosRepository.cargarEventos();
+      CompraJSONRepository compraRepository = new CompraJSONRepository("Data/compras.json");
+      //inicilizamos servicios
+
+      AsientoService asientoService = new AsientoService("Data/asientos.csv");
+      EventosService eventosService = new EventosService(eventos);
+      //Servicios auxiliares
+      ValidadorCompraService validadorCompraService = new ValidadorCompraService(asientoService);
+      AuditoriaService auditoriaService = new AuditoriaService("Data/auditoria.txt");
+      GeneradorQRService generadorQRService = new GeneradorQRService();
+      GeneradorPdfService generadorPdfService = new GeneradorPdfService(eventosService, generadorQRService);
+      //servicio principal
+      ComprasService comprasService = new ComprasService(compraRepository, validadorCompraService, asientoService, auditoriaService, generadorPdfService);
+      //menu
+      MenuPrincipal menu = new MenuPrincipal(eventosService, asientoService, comprasService, generadorPdfService);
+      menu.mostrarMenu();
+
+
+      ;
+
+  }
+
+
+
+
 }
