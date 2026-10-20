@@ -1,16 +1,22 @@
 package org.example.servicios;
+import org.example.excepciones.EventoNoEncontradoException;
 import org.example.modelo.Asiento;
+import org.example.modelo.Eventos;
+
 
 import java.util.List;
 
 public class ValidadorCompraService {
     private final AsientoService asientoService;
-    public ValidadorCompraService(AsientoService asientoService){
+    private final  EventosService eventosService;
+    public ValidadorCompraService(AsientoService asientoService, EventosService eventosService){
         this.asientoService = asientoService;
+        this.eventosService = eventosService;
     }
 
-    public  boolean validarEvento(String nombreEvento){
-        return false;
+    public  boolean validarEvento(String nombreEvento) throws EventoNoEncontradoException {
+     Eventos eventos = eventosService.buscarEventoPorNombre(nombreEvento);
+        return eventosService.existeEvento(eventos.getIdEvento());
     }
 
 

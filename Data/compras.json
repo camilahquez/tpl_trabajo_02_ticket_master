@@ -1,1 +1,1 @@
-[]
+[{"id":"8e39081d-d43e-42f6-b52f-ca0c9f8d1419","nombreComprador":"camila","documentoComprador":"1039468510","correoComprador":"camila@gmail.com","nombreEvento":"Rock Medellin 2026","asientos":[{"idEvento":"EV001","codigoAsiento":"GEN-C-04","localidad":"General","fila":"C","numero":4,"precio":150000.0,"ocupado":true},{"idEvento":"EV001","codigoAsiento":"GEN-C-05","localidad":"General","fila":"C","numero":5,"precio":150000.0,"ocupado":true}],"subtotal":300000.0,"servicio":30000.0,"total":330000.0}]
