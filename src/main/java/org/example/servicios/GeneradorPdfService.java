@@ -83,8 +83,7 @@ public class GeneradorPdfService {
         PDPage pagina = new PDPage(PDRectangle.A4);
         documento.addPage(pagina);
 
-        try (PDPageContentStream contenido =
-                     new PDPageContentStream(documento, pagina)) {
+        try (PDPageContentStream contenido = new PDPageContentStream(documento, pagina)) {
 
             agregarEncabezado(contenido, compra);
             agregarInformacionCompra(contenido, compra, asiento);

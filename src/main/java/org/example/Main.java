@@ -1,41 +1,46 @@
 package org.example;
-
+import org.example.repositorios.AsientoCSVRepository;
+import org.example.repositorios.CompraJSONRepository;
 import org.example.repositorios.EventosCSVRepository;
-import org.example.excepciones.ArchivoDatosException;
-import org.example.excepciones.EventoNoEncontradoException;
 import org.example.modelo.Eventos;
-import org.example.servicios.EventosService;
+import  org.example.servicios.AsientoService;
+import  org.example.servicios.EventosService;
+import  org.example.servicios.ComprasService;
+import  org.example.servicios.AuditoriaService;
+import  org.example.servicios.GeneradorQRService;
+import  org.example.servicios.GeneradorPdfService;
+import  org.example.servicios.ValidadorCompraService;
 
 import java.util.List;
 
-public class Main {
-    public static void main(String[] args) {
-        try {
-            // 1. Cargar los eventos desde el CSV
-            EventosCSVRepository repositorio = new EventosCSVRepository("data/eventos.csv");
-            List<Eventos> eventos = repositorio.cargarEventos();
 
-            // 2. Crear el servicio con la lista ya cargada
-            EventosService eventoService = new EventosService(eventos);
+public class Main  {
+  public static  void main(String[] arg) throws Exception{
+      // inicilizar repositorios
+      EventosCSVRepository eventosRepository = new EventosCSVRepository("Data/eventos.csv");
+      List<Eventos> eventos = eventosRepository.cargarEventos();
+      CompraJSONRepository compraRepository = new CompraJSONRepository("Data/compras.json");
+      //inicilizamos servicios
 
-            // 3. Listar todos los eventos
-            System.out.println("=== Eventos disponibles ===");
-            for (Eventos e : eventoService.obtenerEventos()) {
-                System.out.println(e);
-            }
+      AsientoService asientoService = new AsientoService("Data/asientos.csv");
+      EventosService eventosService = new EventosService(eventos);
+      //Servicios auxiliares
+      ValidadorCompraService validadorCompraService = new ValidadorCompraService(asientoService);
+      AuditoriaService auditoriaService = new AuditoriaService("Data/auditoria.txt");
+      GeneradorQRService generadorQRService = new GeneradorQRService();
+      GeneradorPdfService generadorPdfService = new GeneradorPdfService(eventosService, generadorQRService);
+      //servicio principal
+      ComprasService comprasService = new ComprasService(compraRepository, validadorCompraService, asientoService, auditoriaService, generadorPdfService);
+      //menu
+      MenuPrincipal menu = new MenuPrincipal(eventosService, asientoService, comprasService, generadorPdfService);
+      menu.mostrarMenu();
 
-            // 4. Buscar un evento que existe (cambia el id por uno de tu CSV)
-            System.out.println("=== Búsqueda de un evento existente ===");
-            System.out.println(eventoService.buscarEvento("EV001"));
 
-            // 5. Buscar uno que no existe: debe lanzar la excepción
-            System.out.println("=== Búsqueda de un evento inexistente ===");
-            eventoService.buscarEvento("EV999");
+      ;
 
-        } catch (ArchivoDatosException e) {
-            System.out.println("Error de archivo: " + e.getMessage());
-        } catch (EventoNoEncontradoException e) {
-            System.out.println("Aviso: " + e.getMessage());
-        }
-    }
+  }
+
+
+
+
 }
