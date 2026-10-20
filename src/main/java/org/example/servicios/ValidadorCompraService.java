@@ -1,16 +1,11 @@
 package org.example.servicios;
-import org.example.modelo.Eventos;
 import org.example.modelo.Asiento;
-import org.example.modelo.Compra;
-import  org.example.repositorios.CompraJSONRepository;
-import org.example.servicios.AsientoService;
 
-import javax.swing.*;
 import java.util.List;
 
 public class ValidadorCompraService {
     private final AsientoService asientoService;
-    public ValidadorCompraService(AsientoService asientoService){
+    public ValidadorCompraService(AsientoService asientoService, EventosService eventosService){
         this.asientoService = asientoService;
     }
 
