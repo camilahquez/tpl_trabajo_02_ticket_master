@@ -14,7 +14,8 @@ import java.awt.image.BufferedImage;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import java.nio.file.Path;
-
+import java.util.stream.Collectors;
+import org.example.modelo.Eventos;
 public class GeneradorPdfService {
     private final EventosService eventosService;
     private final GeneradorQRService generadorQRService;
@@ -70,12 +71,15 @@ public class GeneradorPdfService {
             contenido.drawImage(imagenPDF, 330, 520, 220, 140);
         }
     }
-    private void agregarQR(PDDocument documento, PDPageContentStream contenido, Compra compra, Asiento asiento) throws Exception {
+    private void agregarQR(PDDocument documento, PDPageContentStream contenido, Compra compra) throws Exception {
 
-        String informacionQR = compra.getId() + "|" + asiento.getCodigoAsiento();
+        String asientos = compra.getAsientos().stream().map(Asiento::getCodigoAsiento).collect(Collectors.joining(","));
+        Eventos evento = eventosService.buscarEventoPorNombre(compra.getNombreEvento());
+        String idEvento = evento != null ? evento.getIdEvento() : compra.getNombreEvento();
+        String informacionQR = "ID_COMPRA=" + compra.getId() + " | TITULAR=" + compra.getNombreComprador() + " | EVENTO=" + idEvento + " | ASIENTOS=" + asientos + " | TOTAL=" + compra.getTotal();
         BufferedImage imagenQR = generadorQRService.generarQR(informacionQR);
         PDImageXObject qrPDF = LosslessFactory.createFromImage(documento, imagenQR);
-        contenido.drawImage(qrPDF, 385, 370, 110, 110);
+        contenido.drawImage(qrPDF, 385, 370, 130, 130);
     }
 
     private void crearPaginaEntrada(PDDocument documento, Compra compra, Asiento asiento) throws Exception {
@@ -89,7 +93,7 @@ public class GeneradorPdfService {
             agregarInformacionCompra(contenido, compra, asiento);
             String rutaImagen = eventosService.buscarRutaImagen(compra.getNombreEvento());
             agregarImagenEvento(documento, contenido, rutaImagen);
-            agregarQR(documento, contenido, compra, asiento);
+            agregarQR(documento, contenido, compra);
         }
     }
     public String generarPDF(Compra compra) throws Exception {

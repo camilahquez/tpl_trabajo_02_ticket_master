@@ -40,8 +40,8 @@ public class AsientoCSVRepository {
                         String fila = datos[3].trim();
                         int numero = Integer.parseInt(datos[4].trim());
                         double precio = Double.parseDouble(datos[5].trim());
-
-                        Asiento asiento = new Asiento(idEvento, codigo, localidad, fila, numero, precio);
+                        boolean ocupado = Boolean.parseBoolean(datos[6].trim());
+                        Asiento asiento = new Asiento(idEvento, codigo, localidad, fila, numero, precio, ocupado);
                         listaAsientos.add(asiento);
                     } catch (NumberFormatException e) {
                         System.err.println("Fila omitida por formato numérico inválido: " + linea);

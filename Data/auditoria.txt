@@ -1,19 +1,2 @@
-2026-10-19T21:41:25.196510400 | Error la compra es nula
-2026-10-19T21:41:25.207268900 | Error la compra es nula
-2026-10-19T21:41:25.208282300 | Error la compra es nula
-2026-10-19T21:46:24.110334100 | Error la compra es nula
-2026-10-19T21:46:24.121091100 | Error la compra es nula
-2026-10-19T21:46:24.122091900 | Error la compra es nula
-2026-10-19T21:51:39.325687300 | Error la compra es nula
-2026-10-19T21:51:39.333212200 | Error la compra es nula
-2026-10-19T21:56:16.716244200 | Error la compra es nula
-2026-10-19T21:56:16.724971800 | Error la compra es nula
-2026-10-19T22:43:06.358631800 | Compra guardada correctamente, id: 411dad76-cf7b-4fb0-b67f-44557b15ff69
-2026-10-19T22:48:19.774559900 | Compra guardada correctamente, id: 0e7d7bfe-91d0-4de9-be74-9d4da52a3870
-2026-10-19T22:49:57.990014700 | Compra guardada correctamente, id: c05117a1-3763-4d3c-91c5-6afd2722f9ab
-2026-10-19T22:56:45.711703900 | Compra guardada correctamente, id: 0e0ca31f-8cb8-4910-983f-6f2991123c48
-2026-10-19T23:26:43.284284400 | Compra guardada correctamente, id: 22204268-0da0-4c42-9f10-ea8d0ef5cce5
-2026-10-19T23:26:45.099858800 | No se realizo la compra, asintos no disponibles
-2026-10-19T23:30:09.560895100 | Compra guardada correctamente, id: 9085f9cb-c508-4149-b1d2-2ba64727fefc
-2026-10-19T23:30:10.662484600 | No se realizo la compra, asintos no disponibles
-2026-10-19T23:44:13.959035800 | Compra guardada correctamente, id: 8e39081d-d43e-42f6-b52f-ca0c9f8d1419
+2026-10-21T16:43:45.936561400 | Compra guardada correctamente, id: 746fad01-b231-4f02-9402-11a7f303f308
+2026-10-21T17:36:13.684023200 | Compra guardada correctamente, id: fd5bcdd4-97d7-4584-b44d-45f3404cf3c1

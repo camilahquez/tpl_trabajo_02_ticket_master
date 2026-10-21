@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="273a5226-1164-49f1-9d78-582d99596849" name="Changes" comment="" />
+    <list default="true" id="273a5226-1164-49f1-9d78-582d99596849" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/asientos.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/asientos.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/auditoria.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Data/auditoria.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/compras.json" beforeDir="false" afterPath="$PROJECT_DIR$/Data/compras.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/MenuPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/MenuPrincipal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/modelo/Asiento.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modelo/Asiento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/repositorios/AsientoCSVRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/repositorios/AsientoCSVRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pdf-generados/entrada_0e0ca31f-8cb8-4910-983f-6f2991123c48.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pdf-generados/entrada_22204268-0da0-4c42-9f10-ea8d0ef5cce5.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pdf-generados/entrada_581c1224-e1e0-4f74-bd4e-09fe3678adc1.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pdf-generados/entrada_72b09157-9d2f-4427-848c-d20e00e35cd4.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pdf-generados/entrada_8e39081d-d43e-42f6-b52f-ca0c9f8d1419.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pdf-generados/entrada_9085f9cb-c508-4149-b1d2-2ba64727fefc.pdf" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,18 +55,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "feature/camila6"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Repositories\tpl_trabajo_02_ticket_master\src\main\java\org\example\servicio" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CompraJSONRepositoryTest">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.Main" />
       <module name="ticket_master" />
@@ -141,8 +156,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.CompraJSONRepositoryTest" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.CompraJSONRepositoryTest" />
         <item itemvalue="JUnit.ValidadorCompraServiceTest" />
         <item itemvalue="JUnit.GeneradorPdfServiceTest" />
         <item itemvalue="JUnit.EventosServiceTest" />
