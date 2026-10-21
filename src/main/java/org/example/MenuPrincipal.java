@@ -91,8 +91,15 @@ public class MenuPrincipal {
     private void mostrasCodigoAsientos( String idEvento){
         List<Asiento> asientos = asientoService.obtenerAsientosPorEvento(idEvento);
         for(Asiento asiento : asientos){
-            System.out.println(asiento.getCodigoAsiento());
+            if(asiento.isOcupado()){
+                System.out.println(asiento.getCodigoAsiento() + " ocupado");
+            }
+            else{
+                System.out.println(asiento.getCodigoAsiento()+ " disponible");
+            }
+
         }
+
     }
 
     private void comprarBoletas() throws Exception {
