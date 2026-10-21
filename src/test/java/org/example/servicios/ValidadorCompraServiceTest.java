@@ -23,8 +23,8 @@ class ValidadorCompraServiceTest {
     void crearValidadorConUnAsiento(@TempDir Path carpeta) throws IOException {
         Path csv = carpeta.resolve("asientos.csv");
         Files.writeString(csv, """
-                idEvento;codigoAsiento;localidad;fila;numero;precio
-                EV001;VIP-A-01;VIP;A;1;350000
+                idEvento;codigoAsiento;localidad;fila;numero;precio;ocupado
+                EV001;VIP-A-01;VIP;A;1;350000;false
                 """);
         Eventos evento = new Eventos(
                 "EV001",

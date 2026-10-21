@@ -17,8 +17,8 @@ public class AsientoCSVRepositoryTest {
     void filaValidaSeConvierteEnAsiento(@TempDir Path carpeta) throws IOException {
         Path csv = carpeta.resolve("asientos.csv");
         Files.writeString(csv, """
-                idEvento;codigoAsiento;localidad;fila;numero;precio
-                EV001;VIP-A-01;VIP;A;1;350000
+                idEvento;codigoAsiento;localidad;fila;numero;precio;ocupado
+                EV001;VIP-A-01;VIP;A;1;350000;false
                 """);
         List<Asiento> asientos = new AsientoCSVRepository(csv.toString()).cargarAsientos();
 
@@ -35,10 +35,10 @@ public class AsientoCSVRepositoryTest {
     void filaConPrecioInvalidoSeOmiteYLasDemasSeCargan(@TempDir Path carpeta) throws IOException {
         Path csv = carpeta.resolve("asientos.csv");
         Files.writeString(csv, """
-                idEvento;codigoAsiento;localidad;fila;numero;precio
-                EV001;VIP-A-01;VIP;A;1;350000
-                EV001;VIP-A-02;VIP;A;2;abc
-                EV001;VIP-A-03;VIP;A;3;350000
+                idEvento;codigoAsiento;localidad;fila;numero;precio;ocupado
+                EV001;VIP-A-01;VIP;A;1;350000;false
+                EV001;VIP-A-02;VIP;A;2;abc;false
+                EV001;VIP-A-03;VIP;A;3;350000;false
                 """);
         List<Asiento> asientos = new AsientoCSVRepository(csv.toString()).cargarAsientos();
 
