@@ -1,4 +1,4 @@
-# Ticket Master 🎟️
+# Ticket Master
 
 ## Descripción
 
