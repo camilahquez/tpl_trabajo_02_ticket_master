@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 // Asientos services se encarga de la gestion de los asientos de cada evento. Nos permite la busqueda, reserva, y el guardado de los aisentos
 public class AsientoService {
     private List<Asiento> asientos;
@@ -54,6 +55,18 @@ public class AsientoService {
         } catch (IOException e) {
             asiento.setOcupado(false);
             throw new IllegalStateException("No se pudo guardar el estado de los asientos.", e);
+        }
+    }
+    //revierte la reserva de un asiento si falla la compra
+    public void liberarAsiento(String idEvento, String codigoAsiento) {
+        Asiento asiento = buscarAsiento(idEvento, codigoAsiento);
+        if (asiento != null) {
+            asiento.setOcupado(false);
+            try {
+                csvRepository.guardarAsientos(asientos);
+            } catch (IOException e) {
+                System.err.println("No se pudo revertir la reserva de " + codigoAsiento + ": " + e.getMessage());
+            }
         }
     }
 

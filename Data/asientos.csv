@@ -15,8 +15,8 @@ EV001;GEN-C-01;General;C;1;150000.0;false
 EV001;GEN-C-02;General;C;2;150000.0;false
 EV001;GEN-C-03;General;C;3;150000.0;false
 EV001;GEN-C-04;General;C;4;150000.0;false
-EV001;GEN-C-05;General;C;5;150000.0;true
-EV001;GEN-C-06;General;C;6;150000.0;true
+EV001;GEN-C-05;General;C;5;150000.0;false
+EV001;GEN-C-06;General;C;6;150000.0;false
 EV002;OCC-A-01;Occidental;A;1;180000.0;false
 EV002;OCC-A-02;Occidental;A;2;180000.0;false
 EV002;OCC-A-03;Occidental;A;3;180000.0;false

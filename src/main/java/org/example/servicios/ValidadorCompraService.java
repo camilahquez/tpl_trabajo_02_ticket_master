@@ -46,7 +46,7 @@ public class ValidadorCompraService {
     }
     //verifica que la cedula sea un valor valido.
     public  boolean verificarCedula(String documentoCompardor){
-        return documentoCompardor != null && !documentoCompardor.isBlank() && documentoCompardor.matches("\\d{6}|\\d{8}|\\d{10}");
+        return documentoCompardor != null && !documentoCompardor.isBlank() && documentoCompardor.matches("\\d{6,10}");
     }
     //verifica que el nombre sea un valor valido.
     public  boolean verificarNombre(String nombreComprador){

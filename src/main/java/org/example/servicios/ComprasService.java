@@ -1,5 +1,6 @@
 package org.example.servicios;
 import org.example.excepciones.EventoNoEncontradoException;
+import org.example.excepciones.ErrorRepositorioCompraException;
 import org.example.modelo.Asiento;
 import org.example.modelo.Compra;
 
@@ -14,7 +15,7 @@ public class ComprasService {
     private final CompraJSONRepository repositorio;
     private final ValidadorCompraService validadorCompraService;
     private final AsientoService asientoService;
-    private final AuditoriaService auditoriaService;
+    private AuditoriaService auditoriaService;
     private final GeneradorPdfService generadorPdfService;
     private final  EventosService eventosService;
 
@@ -40,11 +41,11 @@ public class ComprasService {
         boolean cedulaValida = validadorCompraService.verificarCedula(documentoComprador);
         boolean nombreValido = validadorCompraService.verificarNombre(nombreComprador);
 
-        System.out.println("Correo válido: " + correoValido);
-        System.out.println("Evento válido: " + eventoValido);
-        System.out.println("Asientos válidos: " + asientosValidos);
-        System.out.println("Cédula válida: " + cedulaValida);
-        System.out.println("Nombre válido: " + nombreValido);
+        if (!nombreValido)    System.out.println("Nombre inválido: use solo letras");
+        if (!cedulaValida)    System.out.println("Documento inválido: debe tener entre 6 y 10 dígitos.");
+        if (!correoValido)    System.out.println("Correo inválido ");
+        if (!eventoValido)    System.out.println("El evento no es válido.");
+        if (!asientosValidos) System.out.println("Selección de asientos vacía o con asientos ya vendidos.");
 
         return correoValido && eventoValido && asientosValidos
                 && cedulaValida && nombreValido;
@@ -59,28 +60,41 @@ public class ComprasService {
          Compra compra = new Compra(id, nombreComprador, documentoComprador, correoComprador,  nombreEvento, asientos, subtotal, servicio, total);
 
          return compra;
-    } return null;
+    }
+        auditoriaService.registrar("Compra rechazada por datos inválidos, documento: " + documentoComprador);
+        return null;
     }
     //resive la compra que se genero  si es nula registra un error en el historial de auditoria si la compra es valida se reservan los asientos de la compra, se guarda la compra en el repositorio y se registra la compra en auditoria. si los asientos no estan dispibles no se guarda la compra y se registra en la auditoria que no se puedo hacer la compra porque los asientos no estan dispobles.
-    public boolean confirmarCompra(Compra compra) throws  Exception {
+    public boolean confirmarCompra(Compra compra)  {
         if (compra == null) {
             auditoriaService.registrar("Error la compra es nula");
             return false;
         }
+        List<Asiento> reservados= new ArrayList<>();
         try {
             for (Asiento asiento : compra.getAsientos()) {
                 asientoService.reservarAsiento(asiento.getIdEvento(), asiento.getCodigoAsiento());
+                reservados.add(asiento);
             }
             repositorio.guardar(compra);
             auditoriaService.registrar("Compra guardada correctamente, id: " + compra.getId());
-
-            String pdfRuta = generadorPdfService.generarPDF(compra);
-            return true;
-            }catch (AsientoNoDisponibleException e) {
-            System.err.println(e.getMessage());
-            auditoriaService.registrar("No se realizo la compra, asintos no disponibles");
+        } catch (AsientoNoDisponibleException | IllegalStateException | ErrorRepositorioCompraException e) {
+            // rollback: se liberan los asientos que ya se habían reservado
+            for (Asiento reservado : reservados) {
+                asientoService.liberarAsiento(reservado.getIdEvento(), reservado.getCodigoAsiento());
+            }
+            System.out.println("Error: " + e.getMessage());
+            auditoriaService.registrar("No se realizó la compra: " + e.getMessage());
             return false;
         }
+        try {
+            String pdfRuta = generadorPdfService.generarPDF(compra);
+            System.out.println("Ticket generado en: " + pdfRuta);
+        } catch (Exception e) {
+            System.out.println("La compra quedó guardada, pero no se pudo generar el PDF: " + e.getMessage());
+            auditoriaService.registrar("Error generando el PDF de la compra " + compra.getId() + ": " + e.getMessage());
+        }
+        return true;
     }
     //devulve todas las compras en el repositorio
     public List<Compra> obtenerCompras(){

@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class AsientoCSVRepository {
     private final String rutaArchivo;
+    private final List<String> lineasInvalidas = new ArrayList<>();
 
     /**
      * Crea el repositorio con la ruta del archivo CSV.
@@ -61,6 +62,9 @@ public class AsientoCSVRepository {
                     } catch (NumberFormatException e) {
                         System.err.println("Fila omitida por formato numérico inválido: " + linea);
                     }
+                } else {
+                    System.err.println("Fila omitida por columnas incompletas: " + linea);
+                    lineasInvalidas.add(linea);
                 }
             }
         }
@@ -79,6 +83,10 @@ public class AsientoCSVRepository {
                         + asiento.getNumero() + ";"
                         + asiento.getPrecio() + ";"
                         + asiento.isOcupado());
+                bw.newLine();
+            }
+            for (String lineaInvalida : lineasInvalidas) {
+                bw.write(lineaInvalida);
                 bw.newLine();
             }
         }
