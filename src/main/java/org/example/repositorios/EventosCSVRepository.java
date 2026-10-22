@@ -14,29 +14,39 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Lee los eventos desde un archivo CSV y los convierte en objetos de Eventos.
+ *Usa ";" como separador y se ignora la primera linea del encabezado,
+ * Cada fila debe tener al menos 6 columnas principales
+ */
 public class EventosCSVRepository {
     private static final String separador=";";
     private static final int columnasEsperadas= 6;
-
     private static final DateTimeFormatter formatoFecha=
             DateTimeFormatter.ofPattern( "d/M/yyyy" );
     private static final DateTimeFormatter formatoHora=
             DateTimeFormatter.ofPattern( "H:mm" );
-
     private final Path rutaArchivo;
 
+    /**
+     * Crea el repositorio con la ruta del archivo CSV.
+     * @param rutaArchivo ruta del archivo
+     */
     public EventosCSVRepository(String rutaArchivo){
         this.rutaArchivo= Path.of(rutaArchivo);
     }
+
+    /**
+     * Lee el archivo CSV y Convierte cada fila en un Evento.
+     * @return ListaEventos: lista de eventos dentro del archivo CSV
+     * @throws ArchivoDatosException por si el archivo no se puede leer o hay fila invalida :(
+     */
     public List<Eventos> cargarEventos() throws ArchivoDatosException {
         List<Eventos> listaEventos = new ArrayList<>();
-
         try (BufferedReader br = Files.newBufferedReader(rutaArchivo)){
             br.readLine();
             String linea;
             int numeroLinea=1;
-
             while((linea=br.readLine()) != null){
                 numeroLinea++;
                 if (linea.isBlank()){
@@ -44,13 +54,20 @@ public class EventosCSVRepository {
                 }
                 listaEventos.add(convertirFila(linea, numeroLinea));
             }
-
         } catch (IOException e) {
             throw new ArchivoDatosException("no se pudo leer el archivo"+ rutaArchivo,e);
         }
         return listaEventos;
 
     }
+
+    /**
+     * Convierte las filas en un objeto Eventos.
+     * @param linea el texto dentro de la fila
+     * @param numeroLinea numero de la fila dentro del archivo
+     * @return el Evento creado a partir de la fila
+     * @throws ArchivoDatosException por si la fila está incompleta o algun dato es invalido :(
+     */
     private Eventos convertirFila(String linea,int numeroLinea)
             throws ArchivoDatosException {
         String[] datos = linea.split(separador);
