@@ -9,15 +9,6 @@ public class Asiento {
     private double precio;
     private boolean ocupado; // Controla si ya fue vendido
 
-    public Asiento(String idEvento, String codigoAsiento, String localidad, String fila, int numero, double precio) {
-        this.idEvento = idEvento;
-        this.codigoAsiento = codigoAsiento;
-        this.localidad = localidad;
-        this.fila = fila;
-        this.numero = numero;
-        this.precio = precio;
-        this.ocupado = false; // Por defecto está disponible
-    }
     public Asiento(String idEvento, String codigoAsiento, String localidad,
                    String fila, int numero, double precio, boolean ocupado) {
         this.idEvento = idEvento;

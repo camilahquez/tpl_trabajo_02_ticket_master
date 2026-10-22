@@ -157,21 +157,42 @@ public class MenuPrincipal {
 
     private void generarTicket() throws Exception {
         System.out.println("Generar ticket PDF");
-        System.out.println("ingresa el nombre del comprador: ");
-        String nombreComprador = scanner.nextLine();
+        System.out.println("ingresa la cedula del comprador: ");
+        String cedulaComprador = scanner.nextLine();
         System.out.println("ingresa el nombre del evento");
         String nombreEvento = scanner.nextLine();
-        Compra compra =  comprasService.buscarCompra(nombreComprador, nombreEvento);
-        if (compra == null){
-            System.out.println("ERROR compra no encontrada");
-        }
-        String rutapdf =generadorPdfService.generarPDF(compra);
-        File archivo = new File(rutapdf);
-        if (Desktop.isDesktopSupported()) {
-            Desktop.getDesktop().open(archivo);
-        }
+        List<Compra> compras =  comprasService.buscarCompra(cedulaComprador, nombreEvento);
+        if (compras.isEmpty() ){
+            System.out.println("no se encontraron compras");
+        } else if (compras.size() == 1) {
+            String rutapdf =generadorPdfService.generarPDF(compras.get(0));
+            File archivo = new File(rutapdf);
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(archivo);
+            }
+        } else if (compras.size() > 1) {
+            for (Compra compra : compras){
+                System.out.println(compra);
+            }
+            System.out.println("digite el id la compra a la que se le quiere generar el pdf");
+            String idEleccion = scanner.nextLine();
+            boolean encontrada = false;
+            for (Compra compra : compras){
+                if (idEleccion.equals(compra.getId())){
+                    String rutapdf =generadorPdfService.generarPDF(compra);
+                    File archivo = new File(rutapdf);
+                    if (Desktop.isDesktopSupported()) {
+                          Desktop.getDesktop().open(archivo);}
+                    encontrada = true;
+                    break;
+                }
 
+            }
+        }else{
+            System.out.println("El id no coincide");
+        }
     }
+
 
     private void consultarReportes() {
         System.out.println("Consultar reportes de ventas");

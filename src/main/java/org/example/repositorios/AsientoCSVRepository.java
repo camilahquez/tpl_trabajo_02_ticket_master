@@ -1,5 +1,6 @@
 package org.example.repositorios;
-
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import org.example.modelo.Asiento;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -31,8 +32,8 @@ public class AsientoCSVRepository {
                     continue;
                 }
 
-                String[] datos = linea.split(";");
-                if (datos.length >= 6) {
+                String[] datos = linea.split(";", -1);
+                if (datos.length >= 7) {
                     try {
                         String idEvento = datos[0].trim();
                         String codigo = datos[1].trim();
@@ -50,5 +51,22 @@ public class AsientoCSVRepository {
             }
         }
         return listaAsientos;
+    }
+    public void guardarAsientos(List<Asiento> asientos) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(rutaArchivo))) {
+            bw.write("idEvento;codigoAsiento;localidad;fila;numero;precio;ocupado");
+            bw.newLine();
+
+            for (Asiento asiento : asientos) {
+                bw.write(asiento.getIdEvento() + ";"
+                        + asiento.getCodigoAsiento() + ";"
+                        + asiento.getLocalidad() + ";"
+                        + asiento.getFila() + ";"
+                        + asiento.getNumero() + ";"
+                        + asiento.getPrecio() + ";"
+                        + asiento.isOcupado());
+                bw.newLine();
+            }
+        }
     }
 }

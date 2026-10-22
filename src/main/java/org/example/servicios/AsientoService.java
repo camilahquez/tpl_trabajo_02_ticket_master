@@ -37,8 +37,11 @@ public class AsientoService {
                 .orElse(null);
     }
 // Cambia el estado de un asiento pasando el atributo ocupado a true y en caso de que ya sea true nos informa que el asiento ya se encuentra reservado
-    public void reservarAsiento(String idEvento, String codigoAsiento) throws AsientoNoDisponibleException {
+
+    public void reservarAsiento(String idEvento, String codigoAsiento)
+            throws AsientoNoDisponibleException {
         Asiento asiento = buscarAsiento(idEvento, codigoAsiento);
+
         if (asiento == null) {
             throw new AsientoNoDisponibleException("El asiento " + codigoAsiento + " no existe para el evento " + idEvento);
         }
@@ -46,6 +49,12 @@ public class AsientoService {
             throw new AsientoNoDisponibleException("El asiento " + codigoAsiento + " ya se encuentra vendido.");
         }
         asiento.setOcupado(true);
+        try {
+            csvRepository.guardarAsientos(asientos);
+        } catch (IOException e) {
+            asiento.setOcupado(false);
+            throw new IllegalStateException("No se pudo guardar el estado de los asientos.", e);
+        }
     }
 
     public double calcularPorcentajeOcupacion(String idEvento) {

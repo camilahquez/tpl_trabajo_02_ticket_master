@@ -18,14 +18,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-
+//Se encarga de generar un reporte de ventas por evento en formato PDF. Consulta las compras registradas, calcula la cantidad de boletas vendidas, los ingresos y el porcentaje de ocupación de cada evento. Genera una gráfica de barras con los ingresos y presenta los resultados en un documento PDF.
 public class ReporteService {
 
     private final EventosService eventosService;
     private final AsientoService asientoService;
     private final CompraJSONRepository compraRepositorio;
     private final GraficaService graficaService;
-
+//Inicializa el servicio de reportes mediante la inyección de las dependencias necesarias para consultar los eventos, obtener información de los asientos, recuperar las compras registradas y generar gráficas.
     public ReporteService(EventosService eventosService, AsientoService asientoService,
                           CompraJSONRepository compraRepositorio, GraficaService graficaService) {
         this.eventosService = eventosService;
@@ -33,7 +33,7 @@ public class ReporteService {
         this.compraRepositorio = compraRepositorio;
         this.graficaService = graficaService;
     }
-
+    //Genera un reporte de ventas por evento a partir de las compras almacenadas. Calcula la cantidad de boletas vendidas, los ingresos obtenidos y el porcentaje de ocupación de cada evento. Genera una gráfica de barras con los ingresos por evento e incorpora los resultados en un documento PDF. Guarda el archivo generado en la carpeta reportes, con el nombre ventas_por_evento.pdf. Si ocurre un error durante la creación o el almacenamiento del documento, lanza una excepción ErrorReporteException.
     public void generarReporte() {
         List<Compra> compras = compraRepositorio.obtenerTodas();
 
