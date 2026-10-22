@@ -6,9 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="273a5226-1164-49f1-9d78-582d99596849" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/servicios/EventosService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/servicios/EventosService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/servicios/GeneradorPdfService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/servicios/GeneradorPdfService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/servicios/AsientoCSVRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/servicios/AsientoCSVRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/asientos.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Data/asientos.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/auditoria.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Data/auditoria.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/compras.json" beforeDir="false" afterPath="$PROJECT_DIR$/Data/compras.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/MenuPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/MenuPrincipal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/modelo/Asiento.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modelo/Asiento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/repositorios/AsientoCSVRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/repositorios/AsientoCSVRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/servicios/AsientoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/servicios/AsientoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/servicios/ComprasService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/servicios/ComprasService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/servicios/ReporteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/servicios/ReporteService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,19 +64,16 @@
       <recent name="C:\Repositories\tpl_trabajo_02_ticket_master\src\main\java\org\example\servicio" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ValidadorCompraServiceTest">
-    <configuration name="CompraJSONRepositoryTest.debeSerializarYDeserializarUnaCompraEnJSON" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.Main" />
       <module name="ticket_master" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.repositorios.*" />
+          <option name="PATTERN" value="org.example.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.example.repositorios" />
-      <option name="MAIN_CLASS_NAME" value="org.example.repositorios.CompraJSONRepositoryTest" />
-      <option name="METHOD_NAME" value="debeSerializarYDeserializarUnaCompraEnJSON" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -150,11 +153,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.ValidadorCompraServiceTest" />
         <item itemvalue="JUnit.GeneradorPdfServiceTest" />
         <item itemvalue="JUnit.EventosServiceTest" />
         <item itemvalue="JUnit.ComprasServiceTest" />
-        <item itemvalue="JUnit.CompraJSONRepositoryTest.debeSerializarYDeserializarUnaCompraEnJSON" />
       </list>
     </recent_temporary>
   </component>
