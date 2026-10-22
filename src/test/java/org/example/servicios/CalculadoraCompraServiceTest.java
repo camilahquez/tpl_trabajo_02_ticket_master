@@ -28,8 +28,8 @@ public class CalculadoraCompraServiceTest {
     }
     @Test
     void calcularSubtotalDebeSumarLosPreciosDeLosAsientos() {
-        Asiento asiento = new Asiento("001D", "00111F", "ALTA", "60", 80, 150000.0);
-        Asiento asiento1 = new Asiento("001D", "001211F", "ALTA", "60", 85, 150000.0);
+        Asiento asiento = new Asiento("001D", "00111F", "ALTA", "60", 80, 150000.0, false);
+        Asiento asiento1 = new Asiento("001D", "001211F", "ALTA", "60", 85, 150000.0, false);
         List<Asiento> asientos = new ArrayList<>();
         asientos.add(asiento);
         asientos.add(asiento1);

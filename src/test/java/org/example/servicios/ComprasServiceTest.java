@@ -38,7 +38,7 @@ public class ComprasServiceTest {
     @Test
     void confirmarCompraDebeGuardarCompraCuandoAsientoEstaDisponible() throws Exception {
 
-        Asiento asiento = new Asiento("001D", "00111F", "ALTA", "60", 80, 150000.0);
+        Asiento asiento = new Asiento("001D", "00111F", "ALTA", "60", 80, 150000.0, false);
         List<Asiento> asientos = new ArrayList<>();
         asientos.add(asiento);
         Compra compra = new Compra("compra-test-001", "Ana Perez", "123456789", "ana@example.com", "Concierto", asientos, 150000.0, 15000.0, 165000.0);
@@ -53,7 +53,7 @@ public class ComprasServiceTest {
     @Test
     void confirmarCompraDebeRechazarCompraCuandoAsientoEstaVendido() throws Exception {
 
-        Asiento asiento = new Asiento("001D", "00111F", "ALTA", "60", 80, 150000.0);
+        Asiento asiento = new Asiento("001D", "00111F", "ALTA", "60", 80, 150000.0, false);
 
         List<Asiento> asientos = new ArrayList<>();
         asientos.add(asiento);
@@ -108,8 +108,7 @@ public class ComprasServiceTest {
     void confirmarCompraDebeGenerarPDF() throws Exception {
 
         Asiento asiento = new Asiento(
-                "001D", "00111F", "ALTA", "60", 80, 150000.0
-        );
+                "001D", "00111F", "ALTA", "60", 80, 150000.0, false);
 
         List<Asiento> asientos = new ArrayList<>();
         asientos.add(asiento);
