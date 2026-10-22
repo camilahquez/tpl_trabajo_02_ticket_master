@@ -27,7 +27,7 @@ public class Main  {
       EventosService eventosService = new EventosService(eventos);
       //Servicios auxiliares
       ValidadorCompraService validadorCompraService = new ValidadorCompraService(asientoService, eventosService);
-      AuditoriaService auditoriaService = new AuditoriaService("Data/auditoria.txt");
+      AuditoriaService auditoriaService = new AuditoriaService("logs/auditoria.txt");
       GeneradorQRService generadorQRService = new GeneradorQRService();
       GeneradorPdfService generadorPdfService = new GeneradorPdfService(eventosService, generadorQRService);
       //servicio principal
