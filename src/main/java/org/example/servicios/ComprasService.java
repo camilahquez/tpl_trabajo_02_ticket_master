@@ -68,12 +68,12 @@ public class ComprasService {
             return false;
         }
         try {
-
-            repositorio.guardar(compra);
-            auditoriaService.registrar("Compra guardada correctamente, id: " + compra.getId());
             for (Asiento asiento : compra.getAsientos()) {
                 asientoService.reservarAsiento(asiento.getIdEvento(), asiento.getCodigoAsiento());
             }
+            repositorio.guardar(compra);
+            auditoriaService.registrar("Compra guardada correctamente, id: " + compra.getId());
+
             String pdfRuta = generadorPdfService.generarPDF(compra);
             return true;
             }catch (AsientoNoDisponibleException e) {
@@ -86,19 +86,8 @@ public class ComprasService {
     public List<Compra> obtenerCompras(){
         return repositorio.obtenerTodas();
     }
-//busca una compra en el repositorio segun el nombre del copmprador y el nombre del evento
-    public List<Compra> buscarCompraNombreComprador(String nombreComprador, String nombreEvento) {
-        List<Compra> compras = obtenerCompras();
-        List<Compra> comprasBuscadas = new ArrayList<>();
-        for (Compra compra : compras) {
-            if (compra.getNombreComprador().equalsIgnoreCase(nombreComprador) && compra.getNombreEvento().equalsIgnoreCase(nombreEvento)) {
-                comprasBuscadas.add(compra);
-                return comprasBuscadas;
-            }
-        }
-        System.out.println("No se encontraron compras");
-        return comprasBuscadas;
-    }
+
+
     //busca una compra en el repositorio segun el documento del copmprador y el nombre del evento
     public List<Compra> buscarCompra(String cedulaComprador, String nombreEvento) {
         List<Compra> compras = obtenerCompras();
