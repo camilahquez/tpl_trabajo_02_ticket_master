@@ -1,4 +1,5 @@
 package org.example;
+import org.example.excepciones.EventoNoEncontradoException;
 import org.example.servicios.*;
 import org.example.modelo.Eventos;
 import org.example.modelo.Asiento;
@@ -72,8 +73,10 @@ public class MenuPrincipal {
                     break;
                 case 6:
                     mostrarAuditoria();
+                    break;
                 case 7:
                     System.out.println("Gracias por utilizar la tiquetera.");
+                    break;
                 default:
                     System.out.println("Opción inválida. Intente nuevamente.");
             }
@@ -101,50 +104,70 @@ public class MenuPrincipal {
         }
 
     }
-
     private void comprarBoletas() throws Exception {
         System.out.println("Comprar boletas");
         consultarEventos();
         System.out.println("Ingresa nombre del evento: ");
         String nombreEvento = scanner.nextLine();
-        Eventos evento = eventosService.buscarEventoPorNombre(nombreEvento);
-        List<String> codigosAsistos = new ArrayList<>();
-        System.out.println("Ingresa  nombre del comprador: ");
+        Eventos evento;
+        try {
+            evento = eventosService.buscarEventoPorNombre(nombreEvento);
+        } catch (EventoNoEncontradoException e) {
+            System.out.println("Ese evento no existe. Verifica el nombre.");
+            auditoriaService.registrar("Compra rechazada: evento inexistente '" + nombreEvento + "'");
+            return;
+        }
+        System.out.println("Ingresa nombre del comprador: ");
         String nombreComprador = scanner.nextLine();
-        System.out.println("Ingresa  cedula del comprador: ");
+        System.out.println("Ingresa cedula del comprador: ");
         String documentoComprador = scanner.nextLine();
         System.out.println("Ingresa correo del comprador: ");
         String correoComprador = scanner.nextLine();
+
         mostrasCodigoAsientos(evento.getIdEvento());
-        System.out.println("Ingresa la cantidad de asientos que se van a comprar:  ");
-        int cantidadAsisntos = scanner.nextInt();
-        scanner.nextLine();
-        for (int i = 0; i < cantidadAsisntos; i++){
-            int j = i +1;
-            System.out.println("Ingresa el numero del "+  j + "º asiento: ");
-            String codigoAsiento = scanner.nextLine();
-            codigosAsistos.add(codigoAsiento);
+        System.out.println("Ingresa la cantidad de asientos que se van a comprar: ");
+        int cantidadAsientos;
+        try {
+            cantidadAsientos = Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("La cantidad debe ser un número entero.");
+            return;
         }
+        if (cantidadAsientos <= 0) {
+            System.out.println("La cantidad debe ser mayor que cero.");
+            return;
+        }
+
         List<Asiento> asientos = new ArrayList<>();
-        for (int i = 0; i < cantidadAsisntos; i++){
-           Asiento asiento = asientoService.buscarAsiento(evento.getIdEvento(), codigosAsistos.get(i));
-            if (asiento != null){
-                asientos.add(asiento);
-            } }
-            Compra compra =comprasService.realizarCompra(nombreComprador,documentoComprador, correoComprador, nombreEvento, asientos);
+        for (int i = 1; i <= cantidadAsientos; i++) {
+            System.out.println("Ingresa el código del asiento " + i + ": ");
+            String codigoAsiento = scanner.nextLine().trim();
+            Asiento asiento = asientoService.buscarAsiento(evento.getIdEvento(), codigoAsiento);
+            if (asiento == null) {
+                System.out.println("El asiento '" + codigoAsiento + "' no existe en este evento.");
+                auditoriaService.registrar("Compra rechazada: asiento inexistente '" + codigoAsiento + "'");
+                return;
+            }
+            if (asientos.contains(asiento)) {
+                System.out.println("No puedes elegir el mismo asiento dos veces.");
+                return;
+            }
+            asientos.add(asiento);
+        }
+
+        Compra compra = comprasService.realizarCompra(nombreComprador, documentoComprador,
+                correoComprador, nombreEvento, asientos);
         if (compra == null) {
             System.out.println("No se pudo hacer la compra. Verifica los datos ingresados.");
             return;
         }
 
         boolean confirmada = comprasService.confirmarCompra(compra);
-
         if (confirmada) {
             System.out.println("Compra realizada correctamente");
         } else {
             System.out.println("No se pudo confirmar la compra");
         }
-
     }
 
     private void consultarCompras() {

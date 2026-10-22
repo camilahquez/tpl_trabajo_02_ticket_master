@@ -1,7 +1,6 @@
-package org.example.servicios;
+package org.example.repositorios;
 
 import org.example.modelo.Asiento;
-import org.example.repositorios.AsientoCSVRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 

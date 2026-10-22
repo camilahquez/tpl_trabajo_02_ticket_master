@@ -53,7 +53,7 @@ public class GeneradorPdfService {
         escribirTexto(contenido, "Comprador: " + compra.getNombreComprador(), 40, 620, 12, false);
         escribirTexto(contenido, "Evento: " + compra.getNombreEvento(), 40, 590, 12, false);
         escribirTexto(contenido, "Asiento: " + asiento.getCodigoAsiento(), 40, 550, 16, true);
-        escribirTexto(contenido, "Compra: " + compra.getId(), 40, 520, 10, false);
+        escribirTexto(contenido, "ID Compra: " + compra.getId(), 40, 520, 10, false);
 
     }
 //Carga la imagen asociada al evento desde los recursos del proyecto y la incorpora al PDF en la posición y dimensiones establecidas. Lanza una excepción IOException si la imagen no se encuentra o no puede leerse.
@@ -109,10 +109,9 @@ public class GeneradorPdfService {
             for (Asiento asiento : compra.getAsientos()) {
                 crearPaginaEntrada(documento, compra, asiento);
             }
-            Path carpeta = Path.of(System.getProperty("user.dir"), "src", "main", "resources", "pdf-generados");
+            Path carpeta = Path.of("tickets");
             java.nio.file.Files.createDirectories(carpeta);
-            String nombreArchivo = "entrada_" + compra.getId() + ".pdf";
-            Path rutaPDF = carpeta.resolve(nombreArchivo);
+            Path rutaPDF = carpeta.resolve(compra.getId() + ".pdf");
             documento.save(rutaPDF.toFile());
             return rutaPDF.toAbsolutePath().toString();
         }

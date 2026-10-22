@@ -26,8 +26,7 @@ public class ReporteService {
     private final CompraJSONRepository compraRepositorio;
     private final GraficaService graficaService;
 //Inicializa el servicio de reportes mediante la inyección de las dependencias necesarias para consultar los eventos, obtener información de los asientos, recuperar las compras registradas y generar gráficas.
-    public ReporteService(EventosService eventosService, AsientoService asientoService,
-                          CompraJSONRepository compraRepositorio, GraficaService graficaService) {
+    public ReporteService(EventosService eventosService, AsientoService asientoService, CompraJSONRepository compraRepositorio, GraficaService graficaService) {
         this.eventosService = eventosService;
         this.asientoService = asientoService;
         this.compraRepositorio = compraRepositorio;
@@ -55,12 +54,7 @@ public class ReporteService {
                 }
             }
 
-            int totalAsientos = asientoService.obtenerAsientosPorEvento(evento.getIdEvento()).size();
-            double ocupacion = 0;
-            if (totalAsientos > 0) {
-                ocupacion = boletasVendidas * 100.0 / totalAsientos;
-            }
-
+            double ocupacion = asientoService.calcularPorcentajeOcupacion(evento.getIdEvento());
             nombres.add(evento.getNombreEvento());
             ingresos.add(ingresosEvento);
             lineas.add(evento.getNombreEvento() + " | " + boletasVendidas + " boletas | $"
