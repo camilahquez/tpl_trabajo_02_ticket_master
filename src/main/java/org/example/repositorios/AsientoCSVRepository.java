@@ -8,13 +8,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Lee los Asientos desde un archivo CSV y los convierte en un objeto de Asiento.
+ */
 public class AsientoCSVRepository {
-    private String rutaArchivo;
+    private final String rutaArchivo;
 
+    /**
+     * Crea el repositorio con la ruta del archivo CSV.
+     * @param rutaArchivo ruta del archivo
+     */
     public AsientoCSVRepository(String rutaArchivo) {
         this.rutaArchivo = rutaArchivo;
     }
 
+    /**
+     *Lee el archivo y convierte cada fila en un Asiento
+     * separa la informacion de cada fila usando ";" e ignora la primera linea del encabezado
+     * @return ListaAsientos: la lista de los asientos dentro del archivo CSV
+     * @throws IOException por si el archivo no se puede leer o hay fila invalida :(
+     */
     public List<Asiento> cargarAsientos() throws IOException {
         List<Asiento> listaAsientos = new ArrayList<>();
         
@@ -36,14 +49,15 @@ public class AsientoCSVRepository {
                 if (datos.length >= 7) {
                     try {
                         String idEvento = datos[0].trim();
-                        String codigo = datos[1].trim();
+                        String codigoAsiento = datos[1].trim();
                         String localidad = datos[2].trim();
                         String fila = datos[3].trim();
                         int numero = Integer.parseInt(datos[4].trim());
                         double precio = Double.parseDouble(datos[5].trim());
-                        boolean ocupado = Boolean.parseBoolean(datos[6].trim());
-                        Asiento asiento = new Asiento(idEvento, codigo, localidad, fila, numero, precio, ocupado);
+                        boolean ocupado = datos.length > 6 && Boolean.parseBoolean(datos[6].trim());
+                        Asiento asiento = new Asiento(idEvento, codigoAsiento, localidad, fila, numero, precio, ocupado);
                         listaAsientos.add(asiento);
+
                     } catch (NumberFormatException e) {
                         System.err.println("Fila omitida por formato numérico inválido: " + linea);
                     }

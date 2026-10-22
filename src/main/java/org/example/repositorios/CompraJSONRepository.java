@@ -1,5 +1,5 @@
 package org.example.repositorios;
-import org.example.modelo.Asiento;
+
 import org.example.modelo.Compra;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -10,15 +10,27 @@ import org.example.excepciones.ErrorRepositorioCompraException;
 import com.google.gson.JsonParseException;
 import java.util.ArrayList;
 
+/**
+ * Lee y guarda las Compras en el archivo JSON
+ */
 public class CompraJSONRepository implements GuardableEnRepositorio {
-    private String archivo;
-    private Gson gson;
+    private final String archivo;
+    private final Gson gson;
 
-    public CompraJSONRepository(String archivo) {
-        this.archivo = archivo;
+    /**
+     * Crea el repositorio con la ruta del rutaArchivo JSON.
+     * @param rutaArchivo ruta del archivo
+     */
+    public CompraJSONRepository(String rutaArchivo) {
+        this.archivo = rutaArchivo;
         this.gson = new Gson();
     }
 
+    /**
+     * Agrega una compra al archivo, conservando las que ya guardadas.
+     * @param compra la compra que se va a guardar
+     * @throws ErrorRepositorioCompraException por si no se puede escribir dentro del archivo
+     */
     @Override
     public void guardar(Compra compra) {
         List<Compra> compras = obtenerTodas();
@@ -32,17 +44,25 @@ public class CompraJSONRepository implements GuardableEnRepositorio {
         }
     }
 
+    /**
+     * Busca una compra por su id
+     * @param id el id de la compra
+     * @return la compra encontrada o null si no se encuentra
+     */
     @Override
     public Compra buscarPorId(String id) {
         List<Compra> compras = obtenerTodas();
         for (Compra compra : compras){
-            if (compra.getId() == id) {
+            if (compra.getId().equals(id))
                 return compra;
-            }
         }
         return null;
     }
 
+    /** Lee todas la compras actuales dentro del archivo JSON
+     * @throws ErrorRepositorioCompraException por si no se puede leer el archivo JSON
+     * @return la lista con todas las compras guardadas en el JSON o lista vacia
+     */
     @Override
     public List<Compra> obtenerTodas() {
         File archivoCompras = new File(archivo);
